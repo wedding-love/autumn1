@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
 <title>Приглашение</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +42,9 @@
         background: #ffffff;
         transition: opacity 1s ease;
         z-index: 100;
-        padding: 24px;
+        padding: 20px;
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
 
     #puzzle-screen.hidden {
@@ -55,7 +58,7 @@
         font-weight: 400;
         letter-spacing: 0.35em;
         text-transform: uppercase;
-        margin-bottom: 14px;
+        margin-bottom: 10px;
         color: #111111;
         text-align: center;
     }
@@ -65,7 +68,7 @@
         font-size: clamp(12px, 2.4vw, 14px);
         font-weight: 300;
         color: #888888;
-        margin-bottom: 36px;
+        margin-bottom: 24px;
         text-align: center;
         letter-spacing: 0.05em;
         max-width: 320px;
@@ -74,14 +77,16 @@
 
     #puzzle-board {
         position: relative;
-        width: min(88vw, 88vh, 480px);
-        height: min(88vw, 88vh, 480px);
+        /* Размеры задаются из JS — под пропорции картинки */
+        width: 300px;
+        height: 200px;
         background: #fafafa;
         border: 1px solid #ededed;
         border-radius: 4px;
         overflow: hidden;
         touch-action: none;
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.05);
+        margin: 0 auto;
     }
 
     #puzzle-board::before {
@@ -133,7 +138,7 @@
     }
 
     .progress {
-        margin-top: 24px;
+        margin-top: 18px;
         font-family: 'Inter', sans-serif;
         font-size: 12px;
         font-weight: 300;
@@ -149,6 +154,22 @@
     @keyframes boardGlow {
         0%   { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.12); }
         100% { box-shadow: 0 0 50px 16px rgba(0, 0, 0, 0); }
+    }
+
+    /* Мобильные — чуть компактнее */
+    @media (max-width: 480px) {
+        .puzzle-title {
+            font-size: 13px;
+            letter-spacing: 0.28em;
+        }
+        .puzzle-hint {
+            font-size: 11px;
+            margin-bottom: 18px;
+        }
+        .progress {
+            font-size: 11px;
+            margin-top: 14px;
+        }
     }
 </style>
 </head>
@@ -168,7 +189,7 @@
 
     // ====== НАСТРОЙКИ ======
     const IMAGE_SRC   = '1.png';
-    const NEXT_PAGE   = '2.html';   // куда переходим после сборки
+    const NEXT_PAGE   = '2.html';    // куда переходим после сборки
     const COLS        = 4;
     const ROWS        = 3;
     const SNAP_TOLERANCE = 18;
@@ -180,7 +201,6 @@
     const progress = document.getElementById('progress');
 
     // ====== СОСТОЯНИЕ ======
-    let boardSize = 0;
     let pieceW = 0, pieceH = 0;
     let pieces = [];
     let placedCount = 0;
@@ -218,13 +238,43 @@
         img.src = c.toDataURL();
     }
 
+    // ====== НАСТРОЙКА ПОЛЯ ПОД ПРОПОРЦИИ КАРТИНКИ ======
     function setupBoard(img) {
-        boardSize = board.clientWidth;
-        pieceW = Math.floor(boardSize / COLS);
-        pieceH = Math.floor(boardSize / ROWS);
+        // Максимальная площадь, которую может занять поле:
+        // по ширине — 88% окна, не больше 480px
+        // по высоте — 65% окна, не больше 560px
+        // (оставляем место под заголовок, подсказку и прогресс)
+        const maxW = Math.min(window.innerWidth  * 0.88, 480);
+        const maxH = Math.min(window.innerHeight * 0.65, 560);
 
+        // Пропорции картинки
+        const ratio = img.width / img.height;
+
+        // Подгоняем поле: сначала по ширине, если не влезает по высоте — пересчитываем
+        let boardW = maxW;
+        let boardH = boardW / ratio;
+
+        if (boardH > maxH) {
+            boardH = maxH;
+            boardW = boardH * ratio;
+        }
+
+        // Размер одного кусочка (целое число, чтобы всё делилось ровно)
+        pieceW = Math.max(20, Math.floor(boardW / COLS));
+        pieceH = Math.max(20, Math.floor(boardH / ROWS));
+
+        // Итоговые размеры поля (ровно pieceW*COLS × pieceH*ROWS)
+        boardW = pieceW * COLS;
+        boardH = pieceH * ROWS;
+
+        // Применяем
+        board.style.width  = boardW + 'px';
+        board.style.height = boardH + 'px';
+
+        // Фон-подсказка
         board.style.setProperty('--bg-image', `url(${img.src})`);
 
+        // Создаём кусочки
         for (let row = 0; row < ROWS; row++) {
             for (let col = 0; col < COLS; col++) {
                 const piece = document.createElement('div');
@@ -237,12 +287,14 @@
                 piece.style.backgroundPosition =
                     `-${col * pieceW}px -${row * pieceH}px`;
 
+                // Куда должен встать
                 piece.dataset.targetX = col * pieceW;
                 piece.dataset.targetY = row * pieceH;
                 piece.dataset.snapped = 'false';
 
-                const randX = Math.random() * (boardSize - pieceW);
-                const randY = Math.random() * (boardSize - pieceH);
+                // Случайная стартовая позиция — строго внутри поля
+                const randX = Math.random() * Math.max(1, boardW - pieceW);
+                const randY = Math.random() * Math.max(1, boardH - pieceH);
                 piece.style.left = randX + 'px';
                 piece.style.top  = randY + 'px';
 
@@ -265,6 +317,7 @@
         board.addEventListener('touchstart', onDown, { passive: false });
         document.addEventListener('touchmove', onMove, { passive: false });
         document.addEventListener('touchend', onUp);
+        document.addEventListener('touchcancel', onUp);
     }
 
     function getPoint(e) {
@@ -301,8 +354,12 @@
         let newLeft = startLeft + dx;
         let newTop  = startTop  + dy;
 
-        newLeft = Math.max(0, Math.min(boardSize - pieceW, newLeft));
-        newTop  = Math.max(0, Math.min(boardSize - pieceH, newTop));
+        // Границы поля — используем реальные размеры
+        const boardW = board.clientWidth;
+        const boardH = board.clientHeight;
+
+        newLeft = Math.max(0, Math.min(boardW - pieceW, newLeft));
+        newTop  = Math.max(0, Math.min(boardH - pieceH, newTop));
 
         dragging.style.left = newLeft + 'px';
         dragging.style.top  = newTop  + 'px';
@@ -380,7 +437,7 @@
         } catch (e) { /* звук не критичен */ }
     }
 
-    // ====== ФИНАЛ: ПЕРЕХОД НА 2.HTML ======
+    // ====== ФИНАЛ ======
     function finishPuzzle() {
         if (finished) return;
         finished = true;
@@ -388,8 +445,6 @@
 
         board.classList.add('complete');
 
-        // Даём гостю ~1.2 сек полюбоваться собранной картинкой,
-        // затем плавно гасим экран и переходим на 2.html
         setTimeout(() => {
             screen.classList.add('hidden');
             setTimeout(() => {
@@ -401,6 +456,7 @@
     // ====== СТАРТ ======
     window.addEventListener('load', () => setTimeout(init, 50));
 
+    // При изменении размера окна — перезагружаем, чтобы пересчитать
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
