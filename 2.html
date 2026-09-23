@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -52,7 +51,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* Имена прижаты к низу */
         justify-content: flex-end;
         text-align: center;
         padding: clamp(24px, 6vw, 60px) clamp(20px, 5vw, 48px);
@@ -223,7 +221,7 @@
         z-index: 1;
     }
 
-    /* ===== БЛОК 3: ФОТО 2.PNG ===== */
+    /* ===== БЛОК 3: ФОТО 2.PNG (ПРОЗРАЧНОЕ + РАСТВОРЕНИЕ) ===== */
     .photo-block {
         background: #ffffff;
         padding:
@@ -241,7 +239,21 @@
         max-width: 1200px;
         height: auto;
         object-fit: cover;
-        border-radius: 4px;
+
+        /* Полупрозрачность всей картинки */
+        opacity: 0.85;
+
+        /* Мягкое растворение по краям — фото «вплывает» в белый фон */
+        -webkit-mask-image: radial-gradient(
+            ellipse at center,
+            #000 55%,
+            transparent 95%
+        );
+        mask-image: radial-gradient(
+            ellipse at center,
+            #000 55%,
+            transparent 95%
+        );
     }
 
     /* ===== ПЛАНШЕТЫ ===== */
@@ -409,7 +421,7 @@
         </div>
     </section>
 
-    <!-- БЛОК 3: ФОТО 2.PNG -->
+    <!-- БЛОК 3: ФОТО 2.PNG (ПРОЗРАЧНОЕ) -->
     <section class="photo-block">
         <img src="2.png" alt="" class="photo-block__img">
     </section>
