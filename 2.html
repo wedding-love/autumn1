@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
 <title>Александр и Елена — 01.12.2026</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +18,11 @@
         -webkit-tap-highlight-color: transparent;
     }
 
+    html {
+        scrollbar-gutter: stable;
+        -webkit-text-size-adjust: 100%;
+    }
+
     html, body {
         background: #ffffff;
         min-height: 100%;
@@ -24,9 +30,10 @@
 
     body {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #2f4a3c;   /* тёмно-зелёный по умолчанию */
+        color: #2f4a3c;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
         opacity: 0;
         animation: fadeIn 0.8s ease forwards;
     }
@@ -35,85 +42,79 @@
         to { opacity: 1; }
     }
 
-    /* ===== БЛОК 1: ФОТО-ФОН + ИМЕНА + ДАТА ===== */
+    /* ===== БЛОК 1: ФОТО-ФОН (без имён) ===== */
     .hero {
         position: relative;
         min-height: 100vh;
+        min-height: 100svh;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 40px 24px;
+        padding: clamp(24px, 6vw, 60px) clamp(20px, 5vw, 48px);
+        padding-top: max(clamp(24px, 6vw, 60px), env(safe-area-inset-top));
+        padding-bottom: max(clamp(24px, 6vw, 60px), env(safe-area-inset-bottom));
         background-image: url('1.png');
         background-size: cover;
-        background-position: center;
+        background-position: center center;
         background-repeat: no-repeat;
     }
 
-    .hero h1 {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(44px, 9vw, 96px);
-        font-weight: 300;
-        font-style: italic;
-        color: #ffffff;
-        line-height: 1.05;
-        letter-spacing: 0.01em;
-        margin-bottom: 24px;
-    }
-
-    .hero h1 .amp {
-        display: inline-block;
-        font-style: normal;
-        font-weight: 300;
-        margin: 0 0.15em;
-        opacity: 0.85;
+    @media (max-width: 768px) and (orientation: portrait) {
+        .hero {
+            background-position: center 40%;
+        }
     }
 
     .hero .date {
         font-family: 'Inter', sans-serif;
-        font-size: clamp(14px, 2.2vw, 18px);
+        font-size: clamp(12px, 2vw, 18px);
         font-weight: 300;
-        letter-spacing: 0.4em;
+        letter-spacing: clamp(0.2em, 0.4em, 0.5em);
         text-transform: uppercase;
         color: #ffffff;
         opacity: 0.95;
     }
 
-    /* ===== БЛОК 2: ПРИГЛАШЕНИЕ + ПОЛОСКА С ДАТОЙ ===== */
+    /* ===== БЛОК 2: ПРИГЛАШЕНИЕ ===== */
     .invitation {
         background: #ffffff;
-        padding: clamp(80px, 12vw, 140px) 24px clamp(80px, 12vw, 140px);
+        padding:
+            clamp(64px, 10vw, 140px)
+            clamp(20px, 5vw, 48px)
+            clamp(64px, 10vw, 140px);
+        padding-bottom: max(clamp(64px, 10vw, 140px), env(safe-area-inset-bottom));
         text-align: center;
     }
 
     .invitation__inner {
         max-width: 640px;
         margin: 0 auto;
+        width: 100%;
     }
 
-    /* Заголовок приглашения — зелёный */
-    .invitation__title {
+    /* Приветствие */
+    .invitation__greeting {
         font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(30px, 5vw, 52px);
+        font-size: clamp(26px, 5vw, 52px);
         font-weight: 300;
         font-style: italic;
         color: #2f4a3c;
         line-height: 1.25;
-        margin-bottom: 40px;
+        margin-bottom: clamp(28px, 4vw, 40px);
         letter-spacing: 0.01em;
     }
 
-    /* Основной текст — зелёный, чуть мягче */
     .invitation__text {
         font-family: 'Inter', sans-serif;
         font-size: clamp(14px, 1.8vw, 16px);
         font-weight: 300;
-        line-height: 2;
+        line-height: 1.85;
         color: #4a6b5a;
         max-width: 520px;
-        margin: 0 auto 24px;
+        margin: 0 auto clamp(18px, 2.5vw, 24px);
         letter-spacing: 0.01em;
     }
 
@@ -122,63 +123,262 @@
         color: #2f4a3c;
     }
 
-    /* Разделитель — зелёный, тонкий */
     .invitation__divider {
         width: 32px;
         height: 1px;
         background: #cdd9d2;
-        margin: 48px auto;
+        margin: clamp(36px, 5vw, 48px) auto;
     }
 
-    /* ===== ПОЛОСКА С ДАТОЙ (вместо календаря) ===== */
-    .date-strip {
-        display: inline-flex;
-        align-items: center;
-        gap: 18px;
-        padding: 18px 36px;
-        border: 1px solid #cdd9d2;
-        border-radius: 999px;
+    /* ===== КАЛЕНДАРЬ: ОДНА НЕДЕЛЯ ===== */
+    .calendar {
+        max-width: 420px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .calendar__month {
         font-family: 'Inter', sans-serif;
-        font-size: clamp(12px, 1.8vw, 14px);
+        font-size: clamp(11px, 1.5vw, 12px);
         font-weight: 400;
-        letter-spacing: 0.3em;
+        letter-spacing: 0.4em;
         text-transform: uppercase;
         color: #2f4a3c;
-        background: #ffffff;
+        margin-bottom: clamp(18px, 3vw, 24px);
     }
 
-    /* Сердечко внутри полоски */
-    .date-strip .heart {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
+    .calendar__grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: clamp(4px, 1vw, 8px);
+    }
+
+    /* Заголовки дней недели */
+    .calendar__weekday {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(9px, 1.3vw, 10px);
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #99a89f;
+        padding: clamp(6px, 1vw, 8px) 0;
+        text-align: center;
+    }
+
+    /* Дни */
+    .calendar__day {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(13px, 2vw, 16px);
+        font-weight: 300;
+        color: #4a6b5a;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.3s ease;
+    }
+
+    /* Выделенная дата — сердце вместо круга */
+    .calendar__day--special {
         color: #2f4a3c;
-        flex-shrink: 0;
+        font-weight: 500;
+        position: relative;
     }
 
-    .date-strip .heart svg {
-        display: block;
+    .calendar__day--special .heart-mark {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2f4a3c;
+        pointer-events: none;
+    }
+
+    .calendar__day--special .heart-mark svg {
         width: 100%;
         height: 100%;
         fill: currentColor;
+        opacity: 0.12;
+    }
+
+    .calendar__day--special .day-number {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ===== БЛОК 3: ИМЕНА В КОНЦЕ ===== */
+    .signature {
+        background: #ffffff;
+        padding:
+            clamp(60px, 10vw, 120px)
+            clamp(20px, 5vw, 48px)
+            clamp(80px, 12vw, 140px);
+        padding-bottom: max(clamp(80px, 12vw, 140px), env(safe-area-inset-bottom));
+        text-align: center;
+    }
+
+    .signature__inner {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    .signature h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(40px, 8.5vw, 96px);
+        font-weight: 300;
+        font-style: italic;
+        color: #2f4a3c;
+        line-height: 1.1;
+        letter-spacing: 0.01em;
+        margin-bottom: clamp(16px, 3vw, 28px);
+        word-wrap: break-word;
+    }
+
+    .signature h1 .amp {
+        display: inline-block;
+        font-style: normal;
+        font-weight: 300;
+        margin: 0 0.15em;
+        opacity: 0.85;
+    }
+
+    .signature .date {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(12px, 2vw, 18px);
+        font-weight: 300;
+        letter-spacing: clamp(0.2em, 0.4em, 0.5em);
+        text-transform: uppercase;
+        color: #2f4a3c;
+        opacity: 0.9;
+    }
+
+    /* ===== ПЛАНШЕТЫ ===== */
+    @media (min-width: 481px) and (max-width: 768px) {
+        .invitation__inner {
+            max-width: 560px;
+        }
+        .calendar {
+            max-width: 400px;
+        }
+    }
+
+    /* ===== МОБИЛЬНЫЕ ===== */
+    @media (max-width: 480px) {
+        .hero {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .hero .date {
+            font-size: 12px;
+            letter-spacing: 0.35em;
+        }
+        .invitation__greeting {
+            font-size: clamp(24px, 7vw, 34px);
+        }
+        .invitation__text {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .calendar {
+            max-width: 340px;
+        }
+        .signature h1 {
+            font-size: clamp(34px, 11vw, 48px);
+            line-height: 1.15;
+        }
+        .signature .date {
+            font-size: 12px;
+            letter-spacing: 0.35em;
+        }
+    }
+
+    /* ===== ОЧЕНЬ МАЛЕНЬКИЕ ===== */
+    @media (max-width: 360px) {
+        .signature h1 {
+            font-size: 30px;
+        }
+        .calendar {
+            max-width: 300px;
+        }
+        .calendar__weekday {
+            font-size: 8px;
+            letter-spacing: 0.1em;
+        }
+        .calendar__day {
+            font-size: 12px;
+        }
+    }
+
+    /* ===== ЛАНДШАФТ НА ТЕЛЕФОНЕ ===== */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .hero {
+            min-height: 100vh;
+            padding: 24px 40px;
+        }
+        .hero .date {
+            font-size: 12px;
+        }
+        .invitation {
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+        .signature {
+            padding-top: 48px;
+            padding-bottom: 60px;
+        }
+    }
+
+    /* ===== БОЛЬШИЕ ЭКРАНЫ ===== */
+    @media (min-width: 1440px) {
+        .invitation__inner {
+            max-width: 720px;
+        }
+        .invitation__text {
+            max-width: 600px;
+        }
+    }
+
+    @media (min-width: 1920px) {
+        .hero .date {
+            font-size: 20px;
+        }
+        .invitation__greeting {
+            font-size: 60px;
+        }
+        .invitation__text {
+            font-size: 17px;
+        }
+        .signature h1 {
+            font-size: 110px;
+        }
+        .signature .date {
+            font-size: 20px;
+        }
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+        body {
+            animation: none;
+            opacity: 1;
+        }
     }
 </style>
 </head>
 <body>
 
-    <!-- БЛОК 1: ФОТО + ИМЕНА -->
+    <!-- БЛОК 1: ФОТО-ФОН -->
     <section class="hero">
-        <h1>Александр <span class="amp">&amp;</span> Елена</h1>
         <div class="date">01.12.2026</div>
     </section>
 
-    <!-- БЛОК 2: ПРИГЛАШЕНИЕ + ПОЛОСКА С ДАТОЙ -->
+    <!-- БЛОК 2: ПРИГЛАШЕНИЕ + КАЛЕНДАРЬ НА ОДНУ НЕДЕЛЮ -->
     <section class="invitation">
         <div class="invitation__inner">
 
-            <h2 class="invitation__title">
-                С радостью приглашаем вас<br>на нашу свадьбу
-            </h2>
+            <h2 class="invitation__greeting">Дорогие родные и друзья!</h2>
 
             <p class="invitation__text">
                 Этот день будет особенным для нас, и мы хотим разделить его
@@ -191,16 +391,52 @@
 
             <div class="invitation__divider"></div>
 
-            <!-- ПОЛОСКА С ДАТОЙ И СЕРДЦЕМ -->
-            <div class="date-strip">
-                <span class="heart" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.6 5 5.7 4.1c1.9-.5 3.8.2 5 1.6l1.3 1.5 1.3-1.5c1.2-1.4 3.1-2.1 5-1.6 3.1.9 4.8 4.3 3.3 7.7C19.5 16.4 12 21 12 21z"/>
-                    </svg>
-                </span>
-                <span>01.12.2026</span>
+            <!-- КАЛЕНДАРЬ: ТОЛЬКО НЕДЕЛЯ С ДАТОЙ (1–6 декабря 2026) -->
+            <div class="calendar">
+                <div class="calendar__month">Декабрь 2026</div>
+
+                <div class="calendar__grid">
+                    <!-- Дни недели -->
+                    <div class="calendar__weekday">Пн</div>
+                    <div class="calendar__weekday">Вт</div>
+                    <div class="calendar__weekday">Ср</div>
+                    <div class="calendar__weekday">Чт</div>
+                    <div class="calendar__weekday">Пт</div>
+                    <div class="calendar__weekday">Сб</div>
+                    <div class="calendar__weekday">Вс</div>
+
+                    <!--
+                      Строка недели, в которой есть 1 декабря 2026.
+                      1 дек 2026 — вторник, значит Пн пустой,
+                      дальше 1 (Вт) … 6 (Вс).
+                    -->
+                    <div class="calendar__day calendar__day--empty" aria-hidden="true"></div>
+
+                    <div class="calendar__day calendar__day--special">
+                        <span class="heart-mark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.6 5 5.7 4.1c1.9-.5 3.8.2 5 1.6l1.3 1.5 1.3-1.5c1.2-1.4 3.1-2.1 5-1.6 3.1.9 4.8 4.3 3.3 7.7C19.5 16.4 12 21 12 21z"/>
+                            </svg>
+                        </span>
+                        <span class="day-number">1</span>
+                    </div>
+
+                    <div class="calendar__day">2</div>
+                    <div class="calendar__day">3</div>
+                    <div class="calendar__day">4</div>
+                    <div class="calendar__day">5</div>
+                    <div class="calendar__day">6</div>
+                </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- БЛОК 3: ИМЕНА И ДАТА В КОНЦЕ -->
+    <section class="signature">
+        <div class="signature__inner">
+            <h1>Александр <span class="amp">&amp;</span> Елена</h1>
+            <div class="date">01.12.2026</div>
         </div>
     </section>
 
