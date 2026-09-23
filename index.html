@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Приглашение</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+        background: #ffffff;
+        height: 100%;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow: hidden;
+        color: #111111;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== Экран с пазлом ===== */
+    #puzzle-screen {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        transition: opacity 1s ease;
+        z-index: 100;
+        padding: 24px;
+    }
+
+    #puzzle-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .puzzle-title {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(14px, 3vw, 18px);
+        font-weight: 400;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        color: #111111;
+        text-align: center;
+    }
+
+    .puzzle-hint {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(12px, 2.4vw, 14px);
+        font-weight: 300;
+        color: #888888;
+        margin-bottom: 36px;
+        text-align: center;
+        letter-spacing: 0.05em;
+        max-width: 320px;
+        line-height: 1.6;
+    }
+
+    #puzzle-board {
+        position: relative;
+        width: min(88vw, 88vh, 480px);
+        height: min(88vw, 88vh, 480px);
+        background: #fafafa;
+        border: 1px solid #ededed;
+        border-radius: 4px;
+        overflow: hidden;
+        touch-action: none;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.05);
+    }
+
+    #puzzle-board::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: var(--bg-image);
+        background-size: cover;
+        background-position: center;
+        opacity: 0.05;
+        filter: grayscale(100%);
+        pointer-events: none;
+    }
+
+    .piece {
+        position: absolute;
+        background-size: cover;
+        background-position: center;
+        cursor: grab;
+        transition: box-shadow 0.3s ease, filter 0.3s ease;
+        will-change: transform, left, top;
+        border-radius: 2px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .piece:active {
+        cursor: grabbing;
+    }
+
+    .piece.dragging {
+        z-index: 999;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+        filter: brightness(1.02);
+    }
+
+    .piece.snapped {
+        cursor: default;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .piece.flash {
+        animation: flash 0.5s ease;
+    }
+
+    @keyframes flash {
+        0%   { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.22); }
+        100% { box-shadow: 0 0 0 22px rgba(0, 0, 0, 0); }
+    }
+
+    .progress {
+        margin-top: 24px;
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        font-weight: 300;
+        letter-spacing: 0.3em;
+        color: #bbbbbb;
+    }
+
+    #puzzle-board.complete {
+        animation: boardGlow 1.2s ease;
+        border-color: #dcdcdc;
+    }
+
+    @keyframes boardGlow {
+        0%   { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.12); }
+        100% { box-shadow: 0 0 50px 16px rgba(0, 0, 0, 0); }
+    }
+</style>
+</head>
+<body>
+
+<!-- ЭКРАН С ПАЗЛОМ -->
+<div id="puzzle-screen">
+    <div class="puzzle-title">Вы получили приглашение</div>
+    <div class="puzzle-hint">Чтобы открыть его — соберите пазл</div>
+    <div id="puzzle-board"></div>
+    <div class="progress" id="progress">0 / 12</div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+
+    // ====== НАСТРОЙКИ ======
+    const IMAGE_SRC   = '1.png';
+    const NEXT_PAGE   = '2.html';   // куда переходим после сборки
+    const COLS        = 4;
+    const ROWS        = 3;
+    const SNAP_TOLERANCE = 18;
+    const AUTO_FINISH_SEC = 45;
+
+    // ====== ЭЛЕМЕНТЫ ======
+    const board    = document.getElementById('puzzle-board');
+    const screen   = document.getElementById('puzzle-screen');
+    const progress = document.getElementById('progress');
+
+    // ====== СОСТОЯНИЕ ======
+    let boardSize = 0;
+    let pieceW = 0, pieceH = 0;
+    let pieces = [];
+    let placedCount = 0;
+    let dragging = null;
+    let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+    let finished = false;
+    let autoTimer = null;
+
+    // ====== ИНИЦИАЛИЗАЦИЯ ======
+    function init() {
+        const img = new Image();
+        img.onload = () => setupBoard(img);
+        img.onerror = () => {
+            console.warn('Не удалось загрузить ' + IMAGE_SRC + ', использую заглушку');
+            createPlaceholderAndSetup();
+        };
+        img.src = IMAGE_SRC;
+    }
+
+    function createPlaceholderAndSetup() {
+        const c = document.createElement('canvas');
+        c.width = 800; c.height = 600;
+        const ctx = c.getContext('2d');
+        const grad = ctx.createLinearGradient(0, 0, 800, 600);
+        grad.addColorStop(0, '#f5f5f5');
+        grad.addColorStop(1, '#cccccc');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 600);
+        ctx.fillStyle = '#888';
+        ctx.font = 'bold 60px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('1.png', 400, 320);
+        const img = new Image();
+        img.onload = () => setupBoard(img);
+        img.src = c.toDataURL();
+    }
+
+    function setupBoard(img) {
+        boardSize = board.clientWidth;
+        pieceW = Math.floor(boardSize / COLS);
+        pieceH = Math.floor(boardSize / ROWS);
+
+        board.style.setProperty('--bg-image', `url(${img.src})`);
+
+        for (let row = 0; row < ROWS; row++) {
+            for (let col = 0; col < COLS; col++) {
+                const piece = document.createElement('div');
+                piece.className = 'piece';
+
+                piece.style.width  = pieceW + 'px';
+                piece.style.height = pieceH + 'px';
+                piece.style.backgroundImage = `url(${img.src})`;
+                piece.style.backgroundSize = `${pieceW * COLS}px ${pieceH * ROWS}px`;
+                piece.style.backgroundPosition =
+                    `-${col * pieceW}px -${row * pieceH}px`;
+
+                piece.dataset.targetX = col * pieceW;
+                piece.dataset.targetY = row * pieceH;
+                piece.dataset.snapped = 'false';
+
+                const randX = Math.random() * (boardSize - pieceW);
+                const randY = Math.random() * (boardSize - pieceH);
+                piece.style.left = randX + 'px';
+                piece.style.top  = randY + 'px';
+
+                board.appendChild(piece);
+                pieces.push(piece);
+            }
+        }
+
+        updateProgress();
+        attachEvents();
+        autoTimer = setTimeout(autoFinish, AUTO_FINISH_SEC * 1000);
+    }
+
+    // ====== СОБЫТИЯ ======
+    function attachEvents() {
+        board.addEventListener('mousedown', onDown);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+
+        board.addEventListener('touchstart', onDown, { passive: false });
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('touchend', onUp);
+    }
+
+    function getPoint(e) {
+        if (e.touches && e.touches[0]) {
+            return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+        return { x: e.clientX, y: e.clientY };
+    }
+
+    function onDown(e) {
+        if (finished) return;
+        const target = e.target.closest('.piece');
+        if (!target || target.dataset.snapped === 'true') return;
+
+        e.preventDefault();
+        dragging = target;
+        dragging.classList.add('dragging');
+
+        const p = getPoint(e);
+        startX = p.x;
+        startY = p.y;
+        startLeft = parseFloat(dragging.style.left) || 0;
+        startTop  = parseFloat(dragging.style.top)  || 0;
+    }
+
+    function onMove(e) {
+        if (!dragging) return;
+        e.preventDefault();
+
+        const p = getPoint(e);
+        const dx = p.x - startX;
+        const dy = p.y - startY;
+
+        let newLeft = startLeft + dx;
+        let newTop  = startTop  + dy;
+
+        newLeft = Math.max(0, Math.min(boardSize - pieceW, newLeft));
+        newTop  = Math.max(0, Math.min(boardSize - pieceH, newTop));
+
+        dragging.style.left = newLeft + 'px';
+        dragging.style.top  = newTop  + 'px';
+    }
+
+    function onUp() {
+        if (!dragging) return;
+
+        const piece = dragging;
+        piece.classList.remove('dragging');
+        dragging = null;
+
+        const targetX = parseFloat(piece.dataset.targetX);
+        const targetY = parseFloat(piece.dataset.targetY);
+        const curX = parseFloat(piece.style.left);
+        const curY = parseFloat(piece.style.top);
+
+        const dist = Math.hypot(curX - targetX, curY - targetY);
+
+        if (dist <= SNAP_TOLERANCE) {
+            snapPiece(piece);
+        }
+    }
+
+    // ====== ПРИЛИПАНИЕ ======
+    function snapPiece(piece) {
+        piece.style.left = piece.dataset.targetX + 'px';
+        piece.style.top  = piece.dataset.targetY + 'px';
+        piece.dataset.snapped = 'true';
+        piece.classList.add('snapped', 'flash');
+        setTimeout(() => piece.classList.remove('flash'), 500);
+
+        playClick();
+
+        placedCount++;
+        updateProgress();
+
+        if (placedCount === pieces.length) {
+            finishPuzzle();
+        }
+    }
+
+    // ====== АВТОЗАВЕРШЕНИЕ ======
+    function autoFinish() {
+        if (finished) return;
+        pieces.forEach((piece, i) => {
+            if (piece.dataset.snapped === 'false') {
+                setTimeout(() => {
+                    if (piece.dataset.snapped === 'false') {
+                        snapPiece(piece);
+                    }
+                }, i * 120);
+            }
+        });
+    }
+
+    // ====== ПРОГРЕСС ======
+    function updateProgress() {
+        progress.textContent = placedCount + ' / ' + pieces.length;
+    }
+
+    // ====== ЗВУК ======
+    let audioCtx = null;
+    function playClick() {
+        try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'sine';
+            o.frequency.value = 880;
+            g.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+            o.connect(g); g.connect(audioCtx.destination);
+            o.start(); o.stop(audioCtx.currentTime + 0.15);
+        } catch (e) { /* звук не критичен */ }
+    }
+
+    // ====== ФИНАЛ: ПЕРЕХОД НА 2.HTML ======
+    function finishPuzzle() {
+        if (finished) return;
+        finished = true;
+        clearTimeout(autoTimer);
+
+        board.classList.add('complete');
+
+        // Даём гостю ~1.2 сек полюбоваться собранной картинкой,
+        // затем плавно гасим экран и переходим на 2.html
+        setTimeout(() => {
+            screen.classList.add('hidden');
+            setTimeout(() => {
+                window.location.href = NEXT_PAGE;
+            }, 700);
+        }, 1200);
+    }
+
+    // ====== СТАРТ ======
+    window.addEventListener('load', () => setTimeout(init, 50));
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => location.reload(), 400);
+    });
+
+})();
+</script>
+</body>
+</html>
