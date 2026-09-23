@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Александр и Елена — 01.12.2026</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+        background: #ffffff;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #2f4a3c;   /* тёмно-зелёный по умолчанию */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    /* ===== БЛОК 1: ФОТО-ФОН + ИМЕНА + ДАТА ===== */
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 24px;
+        background-image: url('1.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .hero h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(44px, 9vw, 96px);
+        font-weight: 300;
+        font-style: italic;
+        color: #ffffff;
+        line-height: 1.05;
+        letter-spacing: 0.01em;
+        margin-bottom: 24px;
+    }
+
+    .hero h1 .amp {
+        display: inline-block;
+        font-style: normal;
+        font-weight: 300;
+        margin: 0 0.15em;
+        opacity: 0.85;
+    }
+
+    .hero .date {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(14px, 2.2vw, 18px);
+        font-weight: 300;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #ffffff;
+        opacity: 0.95;
+    }
+
+    /* ===== БЛОК 2: ПРИГЛАШЕНИЕ + ПОЛОСКА С ДАТОЙ ===== */
+    .invitation {
+        background: #ffffff;
+        padding: clamp(80px, 12vw, 140px) 24px clamp(80px, 12vw, 140px);
+        text-align: center;
+    }
+
+    .invitation__inner {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    /* Заголовок приглашения — зелёный */
+    .invitation__title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(30px, 5vw, 52px);
+        font-weight: 300;
+        font-style: italic;
+        color: #2f4a3c;
+        line-height: 1.25;
+        margin-bottom: 40px;
+        letter-spacing: 0.01em;
+    }
+
+    /* Основной текст — зелёный, чуть мягче */
+    .invitation__text {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(14px, 1.8vw, 16px);
+        font-weight: 300;
+        line-height: 2;
+        color: #4a6b5a;
+        max-width: 520px;
+        margin: 0 auto 24px;
+        letter-spacing: 0.01em;
+    }
+
+    .invitation__text strong {
+        font-weight: 400;
+        color: #2f4a3c;
+    }
+
+    /* Разделитель — зелёный, тонкий */
+    .invitation__divider {
+        width: 32px;
+        height: 1px;
+        background: #cdd9d2;
+        margin: 48px auto;
+    }
+
+    /* ===== ПОЛОСКА С ДАТОЙ (вместо календаря) ===== */
+    .date-strip {
+        display: inline-flex;
+        align-items: center;
+        gap: 18px;
+        padding: 18px 36px;
+        border: 1px solid #cdd9d2;
+        border-radius: 999px;
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(12px, 1.8vw, 14px);
+        font-weight: 400;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #2f4a3c;
+        background: #ffffff;
+    }
+
+    /* Сердечко внутри полоски */
+    .date-strip .heart {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        color: #2f4a3c;
+        flex-shrink: 0;
+    }
+
+    .date-strip .heart svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
+    }
+</style>
+</head>
+<body>
+
+    <!-- БЛОК 1: ФОТО + ИМЕНА -->
+    <section class="hero">
+        <h1>Александр <span class="amp">&amp;</span> Елена</h1>
+        <div class="date">01.12.2026</div>
+    </section>
+
+    <!-- БЛОК 2: ПРИГЛАШЕНИЕ + ПОЛОСКА С ДАТОЙ -->
+    <section class="invitation">
+        <div class="invitation__inner">
+
+            <h2 class="invitation__title">
+                С радостью приглашаем вас<br>на нашу свадьбу
+            </h2>
+
+            <p class="invitation__text">
+                Этот день будет особенным для нас, и мы хотим разделить его
+                с самыми близкими людьми. Ваше присутствие — лучший подарок.
+            </p>
+
+            <p class="invitation__text">
+                Ждём вас <strong>1 декабря 2026 года</strong>.
+            </p>
+
+            <div class="invitation__divider"></div>
+
+            <!-- ПОЛОСКА С ДАТОЙ И СЕРДЦЕМ -->
+            <div class="date-strip">
+                <span class="heart" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.6 5 5.7 4.1c1.9-.5 3.8.2 5 1.6l1.3 1.5 1.3-1.5c1.2-1.4 3.1-2.1 5-1.6 3.1.9 4.8 4.3 3.3 7.7C19.5 16.4 12 21 12 21z"/>
+                    </svg>
+                </span>
+                <span>01.12.2026</span>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
