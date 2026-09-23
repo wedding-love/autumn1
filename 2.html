@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -42,7 +43,7 @@
         to { opacity: 1; }
     }
 
-    /* ===== БЛОК 1: ФОТО-ФОН (без имён) ===== */
+    /* ===== БЛОК 1: ФОТО-ФОН + ИМЕНА ВНИЗУ ===== */
     .hero {
         position: relative;
         min-height: 100vh;
@@ -51,11 +52,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        /* Имена прижаты к низу */
+        justify-content: flex-end;
         text-align: center;
         padding: clamp(24px, 6vw, 60px) clamp(20px, 5vw, 48px);
         padding-top: max(clamp(24px, 6vw, 60px), env(safe-area-inset-top));
-        padding-bottom: max(clamp(24px, 6vw, 60px), env(safe-area-inset-bottom));
+        padding-bottom: max(clamp(40px, 8vw, 80px), env(safe-area-inset-bottom));
         background-image: url('1.png');
         background-size: cover;
         background-position: center center;
@@ -68,7 +70,29 @@
         }
     }
 
-    .hero .date {
+    .hero__names {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(38px, 8.5vw, 96px);
+        font-weight: 300;
+        font-style: italic;
+        color: #ffffff;
+        line-height: 1.1;
+        letter-spacing: 0.01em;
+        margin-bottom: clamp(12px, 2.5vw, 20px);
+        max-width: 100%;
+        word-wrap: break-word;
+        padding: 0 8px;
+    }
+
+    .hero__names .amp {
+        display: inline-block;
+        font-style: normal;
+        font-weight: 300;
+        margin: 0 0.15em;
+        opacity: 0.85;
+    }
+
+    .hero__date {
         font-family: 'Inter', sans-serif;
         font-size: clamp(12px, 2vw, 18px);
         font-weight: 300;
@@ -95,7 +119,6 @@
         width: 100%;
     }
 
-    /* Приветствие */
     .invitation__greeting {
         font-family: 'Cormorant Garamond', serif;
         font-size: clamp(26px, 5vw, 52px);
@@ -116,11 +139,6 @@
         max-width: 520px;
         margin: 0 auto clamp(18px, 2.5vw, 24px);
         letter-spacing: 0.01em;
-    }
-
-    .invitation__text strong {
-        font-weight: 400;
-        color: #2f4a3c;
     }
 
     .invitation__divider {
@@ -153,7 +171,6 @@
         gap: clamp(4px, 1vw, 8px);
     }
 
-    /* Заголовки дней недели */
     .calendar__weekday {
         font-family: 'Inter', sans-serif;
         font-size: clamp(9px, 1.3vw, 10px);
@@ -165,7 +182,6 @@
         text-align: center;
     }
 
-    /* Дни */
     .calendar__day {
         font-family: 'Inter', sans-serif;
         font-size: clamp(13px, 2vw, 16px);
@@ -179,7 +195,6 @@
         transition: background 0.3s ease;
     }
 
-    /* Выделенная дата — сердце вместо круга */
     .calendar__day--special {
         color: #2f4a3c;
         font-weight: 500;
@@ -208,50 +223,25 @@
         z-index: 1;
     }
 
-    /* ===== БЛОК 3: ИМЕНА В КОНЦЕ ===== */
-    .signature {
+    /* ===== БЛОК 3: ФОТО 2.PNG ===== */
+    .photo-block {
         background: #ffffff;
         padding:
-            clamp(60px, 10vw, 120px)
+            clamp(40px, 6vw, 80px)
             clamp(20px, 5vw, 48px)
-            clamp(80px, 12vw, 140px);
-        padding-bottom: max(clamp(80px, 12vw, 140px), env(safe-area-inset-bottom));
-        text-align: center;
+            clamp(40px, 6vw, 80px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .signature__inner {
-        max-width: 640px;
-        margin: 0 auto;
-    }
-
-    .signature h1 {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(40px, 8.5vw, 96px);
-        font-weight: 300;
-        font-style: italic;
-        color: #2f4a3c;
-        line-height: 1.1;
-        letter-spacing: 0.01em;
-        margin-bottom: clamp(16px, 3vw, 28px);
-        word-wrap: break-word;
-    }
-
-    .signature h1 .amp {
-        display: inline-block;
-        font-style: normal;
-        font-weight: 300;
-        margin: 0 0.15em;
-        opacity: 0.85;
-    }
-
-    .signature .date {
-        font-family: 'Inter', sans-serif;
-        font-size: clamp(12px, 2vw, 18px);
-        font-weight: 300;
-        letter-spacing: clamp(0.2em, 0.4em, 0.5em);
-        text-transform: uppercase;
-        color: #2f4a3c;
-        opacity: 0.9;
+    .photo-block__img {
+        display: block;
+        width: 100%;
+        max-width: 1200px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 4px;
     }
 
     /* ===== ПЛАНШЕТЫ ===== */
@@ -270,7 +260,11 @@
             padding-left: 20px;
             padding-right: 20px;
         }
-        .hero .date {
+        .hero__names {
+            font-size: clamp(32px, 11vw, 48px);
+            line-height: 1.15;
+        }
+        .hero__date {
             font-size: 12px;
             letter-spacing: 0.35em;
         }
@@ -284,20 +278,12 @@
         .calendar {
             max-width: 340px;
         }
-        .signature h1 {
-            font-size: clamp(34px, 11vw, 48px);
-            line-height: 1.15;
-        }
-        .signature .date {
-            font-size: 12px;
-            letter-spacing: 0.35em;
-        }
     }
 
     /* ===== ОЧЕНЬ МАЛЕНЬКИЕ ===== */
     @media (max-width: 360px) {
-        .signature h1 {
-            font-size: 30px;
+        .hero__names {
+            font-size: 28px;
         }
         .calendar {
             max-width: 300px;
@@ -315,18 +301,21 @@
     @media (max-height: 500px) and (orientation: landscape) {
         .hero {
             min-height: 100vh;
-            padding: 24px 40px;
+            padding: 24px 40px 40px;
         }
-        .hero .date {
+        .hero__names {
+            font-size: clamp(28px, 7vh, 48px);
+            margin-bottom: 8px;
+        }
+        .hero__date {
             font-size: 12px;
         }
         .invitation {
             padding-top: 48px;
             padding-bottom: 48px;
         }
-        .signature {
-            padding-top: 48px;
-            padding-bottom: 60px;
+        .photo-block {
+            padding: 32px 40px;
         }
     }
 
@@ -341,7 +330,10 @@
     }
 
     @media (min-width: 1920px) {
-        .hero .date {
+        .hero__names {
+            font-size: 110px;
+        }
+        .hero__date {
             font-size: 20px;
         }
         .invitation__greeting {
@@ -349,12 +341,6 @@
         }
         .invitation__text {
             font-size: 17px;
-        }
-        .signature h1 {
-            font-size: 110px;
-        }
-        .signature .date {
-            font-size: 20px;
         }
     }
 
@@ -369,12 +355,13 @@
 </head>
 <body>
 
-    <!-- БЛОК 1: ФОТО-ФОН -->
+    <!-- БЛОК 1: ФОТО + ИМЕНА ВНИЗУ -->
     <section class="hero">
-        <div class="date">01.12.2026</div>
+        <h1 class="hero__names">Александр <span class="amp">&amp;</span> Елена</h1>
+        <div class="hero__date">01.12.2026</div>
     </section>
 
-    <!-- БЛОК 2: ПРИГЛАШЕНИЕ + КАЛЕНДАРЬ НА ОДНУ НЕДЕЛЮ -->
+    <!-- БЛОК 2: ПРИГЛАШЕНИЕ + КАЛЕНДАРЬ -->
     <section class="invitation">
         <div class="invitation__inner">
 
@@ -385,18 +372,13 @@
                 с самыми близкими людьми. Ваше присутствие — лучший подарок.
             </p>
 
-            <p class="invitation__text">
-                Ждём вас <strong>1 декабря 2026 года</strong>.
-            </p>
-
             <div class="invitation__divider"></div>
 
-            <!-- КАЛЕНДАРЬ: ТОЛЬКО НЕДЕЛЯ С ДАТОЙ (1–6 декабря 2026) -->
+            <!-- КАЛЕНДАРЬ: ТОЛЬКО НЕДЕЛЯ С ДАТОЙ -->
             <div class="calendar">
                 <div class="calendar__month">Декабрь 2026</div>
 
                 <div class="calendar__grid">
-                    <!-- Дни недели -->
                     <div class="calendar__weekday">Пн</div>
                     <div class="calendar__weekday">Вт</div>
                     <div class="calendar__weekday">Ср</div>
@@ -405,11 +387,6 @@
                     <div class="calendar__weekday">Сб</div>
                     <div class="calendar__weekday">Вс</div>
 
-                    <!--
-                      Строка недели, в которой есть 1 декабря 2026.
-                      1 дек 2026 — вторник, значит Пн пустой,
-                      дальше 1 (Вт) … 6 (Вс).
-                    -->
                     <div class="calendar__day calendar__day--empty" aria-hidden="true"></div>
 
                     <div class="calendar__day calendar__day--special">
@@ -432,12 +409,9 @@
         </div>
     </section>
 
-    <!-- БЛОК 3: ИМЕНА И ДАТА В КОНЦЕ -->
-    <section class="signature">
-        <div class="signature__inner">
-            <h1>Александр <span class="amp">&amp;</span> Елена</h1>
-            <div class="date">01.12.2026</div>
-        </div>
+    <!-- БЛОК 3: ФОТО 2.PNG -->
+    <section class="photo-block">
+        <img src="2.png" alt="" class="photo-block__img">
     </section>
 
 </body>
