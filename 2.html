@@ -339,6 +339,167 @@
         line-height: 1.6;
     }
 
+    /* ============================================
+       БЛОК 4: МЕСТО ПРОВЕДЕНИЯ
+    ============================================ */
+    .venue {
+        background: #ffffff;
+        padding:
+            clamp(72px, 11vw, 150px)
+            clamp(20px, 5vw, 48px)
+            clamp(72px, 11vw, 150px);
+        padding-bottom: max(clamp(72px, 11vw, 150px), env(safe-area-inset-bottom));
+    }
+
+    .venue__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(32px, 6vw, 80px);
+        align-items: center;
+    }
+
+    /* Фото с лёгким смещением — необычно */
+    .venue__photo {
+        position: relative;
+        width: 100%;
+    }
+
+    .venue__photo::before {
+        /* Тонкая зелёная рамка-смещение сзади */
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 1px solid #cdd9d2;
+        border-radius: 4px;
+        transform: translate(12px, 12px);
+        pointer-events: none;
+    }
+
+    .venue__photo img {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        border-radius: 4px;
+        z-index: 1;
+    }
+
+    .venue__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .venue__kicker {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(10px, 1.4vw, 11px);
+        font-weight: 400;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: #99a89f;
+        margin-bottom: clamp(14px, 2vw, 18px);
+    }
+
+    .venue__title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(28px, 4.5vw, 52px);
+        font-weight: 300;
+        font-style: italic;
+        color: #2f4a3c;
+        line-height: 1.2;
+        letter-spacing: 0.01em;
+        margin-bottom: clamp(20px, 3vw, 28px);
+    }
+
+    .venue__name {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(16px, 2vw, 18px);
+        font-weight: 400;
+        color: #2f4a3c;
+        letter-spacing: 0.02em;
+        margin-bottom: 8px;
+    }
+
+    .venue__address {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(13px, 1.7vw, 15px);
+        font-weight: 300;
+        line-height: 1.7;
+        color: #4a6b5a;
+        margin-bottom: clamp(28px, 4vw, 40px);
+    }
+
+    /* ===== КНОПКА «ПОКАЗАТЬ НА КАРТЕ» ===== */
+    .venue__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        align-self: flex-start;
+        padding: 16px 28px 16px 32px;
+        background: #2f4a3c;
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(12px, 1.5vw, 13px);
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .venue__btn::before {
+        /* Заливка, которая «выезжает» справа налево при наведении */
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #1f3428;
+        transform: translateX(-101%);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 0;
+    }
+
+    .venue__btn:hover::before {
+        transform: translateX(0);
+    }
+
+    .venue__btn:active {
+        transform: scale(0.98);
+    }
+
+    .venue__btn span,
+    .venue__btn svg {
+        position: relative;
+        z-index: 1;
+    }
+
+    .venue__btn svg {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .venue__btn:hover svg {
+        transform: translateX(4px);
+    }
+
+    /* Стрелка внутри кнопки */
+    .venue__btn svg path {
+        stroke: #ffffff;
+        stroke-width: 1.5;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
     /* ===== ПЛАНШЕТЫ ===== */
     @media (min-width: 481px) and (max-width: 768px) {
         .invitation__inner {
@@ -353,6 +514,24 @@
     }
 
     /* ===== МОБИЛЬНЫЕ ===== */
+    @media (max-width: 900px) {
+        .venue__inner {
+            grid-template-columns: 1fr;
+            gap: clamp(40px, 8vw, 64px);
+        }
+        .venue__photo {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .venue__content {
+            text-align: center;
+            align-items: center;
+        }
+        .venue__btn {
+            align-self: center;
+        }
+    }
+
     @media (max-width: 480px) {
         .hero {
             padding-left: 20px;
@@ -377,7 +556,6 @@
             max-width: 340px;
         }
 
-        /* Тайминг на мобильных — компактнее */
         .timeline__item {
             grid-template-columns: 60px 1fr;
             gap: 16px;
@@ -385,6 +563,14 @@
         }
         .timeline__title {
             margin-bottom: 40px;
+        }
+
+        .venue__photo::before {
+            transform: translate(8px, 8px);
+        }
+        .venue__btn {
+            padding: 14px 22px 14px 24px;
+            gap: 12px;
         }
     }
 
@@ -439,6 +625,10 @@
         .timeline__title {
             margin-bottom: 32px;
         }
+        .venue {
+            padding-top: 56px;
+            padding-bottom: 56px;
+        }
     }
 
     /* ===== БОЛЬШИЕ ЭКРАНЫ ===== */
@@ -451,6 +641,9 @@
         }
         .timeline__inner {
             max-width: 720px;
+        }
+        .venue__inner {
+            max-width: 1280px;
         }
     }
 
@@ -472,6 +665,9 @@
         }
         .timeline__event {
             font-size: 19px;
+        }
+        .venue__title {
+            font-size: 60px;
         }
     }
 </style>
@@ -581,6 +777,44 @@
                     </span>
                 </li>
             </ul>
+
+        </div>
+    </section>
+
+    <!-- БЛОК 4: МЕСТО ПРОВЕДЕНИЯ -->
+    <section class="venue">
+        <div class="venue__inner">
+
+            <div class="venue__photo reveal">
+                <img src="9cf6a74fa2e574fe14621d7445a681aa.jpg" alt="Место проведения">
+            </div>
+
+            <div class="venue__content">
+                <div class="venue__kicker reveal reveal--delay-1">Место проведения</div>
+
+                <h2 class="venue__title reveal reveal--delay-1">Усадьба «Лесная»</h2>
+
+                <div class="venue__name reveal reveal--delay-2">
+                    Московская область, Одинцовский район
+                </div>
+
+                <div class="venue__address reveal reveal--delay-2">
+                    Деревня Раздоры, ул. Липовая, 12<br>
+                    Въезд с главной аллеи, парковка на территории
+                </div>
+
+                <a
+                    href="https://yandex.ru/maps/?text=Московская+область+Одинцовский+район+деревня+Раздоры+улица+Липовая+12"
+                    target="_blank"
+                    rel="noopener"
+                    class="venue__btn reveal reveal--delay-3"
+                >
+                    <span>Показать на карте</span>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6"/>
+                    </svg>
+                </a>
+            </div>
 
         </div>
     </section>
