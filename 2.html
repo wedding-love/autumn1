@@ -104,15 +104,11 @@
     }
 
     @media (max-width: 768px) and (orientation: portrait) {
-        .hero {
-            background-position: center 40%;
-        }
+        .hero { background-position: center 40%; }
     }
 
     @media (max-height: 500px) {
-        .hero {
-            background-position: center center;
-        }
+        .hero { background-position: center center; }
     }
 
     .hero__names {
@@ -151,9 +147,7 @@
         text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
     }
 
-    section {
-        position: relative;
-    }
+    section { position: relative; }
 
     /* ============================================
        БЛОК 2: ПРИГЛАШЕНИЕ
@@ -454,14 +448,9 @@
         transform: translateX(0);
     }
 
-    .venue__btn:active {
-        transform: scale(0.98);
-    }
+    .venue__btn:active { transform: scale(0.98); }
 
-    .venue__btn span {
-        position: relative;
-        z-index: 1;
-    }
+    .venue__btn span { position: relative; z-index: 1; }
 
     .venue__photo {
         position: relative;
@@ -832,9 +821,7 @@
         padding: 4px 0;
     }
 
-    .rsvp__option:hover {
-        color: #ffffff;
-    }
+    .rsvp__option:hover { color: #ffffff; }
 
     .rsvp__option input {
         position: absolute;
@@ -854,9 +841,7 @@
         transition: border-color 0.3s ease;
     }
 
-    .rsvp__option--checkbox .rsvp__mark {
-        border-radius: 3px;
-    }
+    .rsvp__option--checkbox .rsvp__mark { border-radius: 3px; }
 
     .rsvp__mark::after {
         content: '';
@@ -874,13 +859,9 @@
         border-radius: 1px;
     }
 
-    .rsvp__option input:checked ~ .rsvp__mark {
-        border-color: #ffffff;
-    }
+    .rsvp__option input:checked ~ .rsvp__mark { border-color: #ffffff; }
 
-    .rsvp__option input:checked ~ .rsvp__mark::after {
-        transform: scale(1);
-    }
+    .rsvp__option input:checked ~ .rsvp__mark::after { transform: scale(1); }
 
     .rsvp__option input:checked ~ .rsvp__option-text {
         color: #ffffff;
@@ -919,18 +900,11 @@
     }
 
     .rsvp__submit:hover::before,
-    .rsvp__submit:focus::before {
-        transform: translateX(0);
-    }
+    .rsvp__submit:focus::before { transform: translateX(0); }
 
-    .rsvp__submit:active {
-        transform: scale(0.99);
-    }
+    .rsvp__submit:active { transform: scale(0.99); }
 
-    .rsvp__submit span {
-        position: relative;
-        z-index: 1;
-    }
+    .rsvp__submit span { position: relative; z-index: 1; }
 
     .rsvp__success {
         display: none;
@@ -959,16 +933,294 @@
     }
 
     /* ============================================
-       АДАПТИВ — ПЛАНШЕТЫ
+       БЛОК 8: ГОСТЕВАЯ КНИГА
+    ============================================ */
+    .guestbook {
+        background: #ffffff;
+        padding:
+            clamp(56px, 11vw, 150px)
+            max(clamp(20px, 5vw, 48px), env(safe-area-inset-right))
+            max(clamp(56px, 11vw, 150px), env(safe-area-inset-bottom))
+            max(clamp(20px, 5vw, 48px), env(safe-area-inset-left));
+    }
+
+    .guestbook__inner {
+        max-width: 760px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .guestbook__kicker {
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(9px, 1.4vw, 11px);
+        font-weight: 500;
+        letter-spacing: clamp(0.3em, 0.45em, 0.45em);
+        text-transform: uppercase;
+        color: #a3b398;
+        margin-bottom: clamp(14px, 2.5vw, 22px);
+    }
+
+    .guestbook__title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(26px, 5.5vw, 56px);
+        font-weight: 400;
+        font-style: italic;
+        color: #5d7a5a;
+        line-height: 1.3;
+        letter-spacing: 0.005em;
+        margin-bottom: clamp(16px, 3vw, 28px);
+    }
+
+    .guestbook__text {
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(13px, 1.8vw, 16px);
+        font-weight: 300;
+        line-height: 1.9;
+        color: #7a9473;
+        max-width: 520px;
+        margin: 0 auto clamp(40px, 6vw, 64px);
+        letter-spacing: 0.01em;
+    }
+
+    /* Форма */
+    .guestbook__form {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(20px, 3.5vw, 32px);
+        text-align: left;
+        margin-bottom: clamp(56px, 8vw, 88px);
+    }
+
+    .guestbook__field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .guestbook__label {
+        display: block;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(9px, 1.3vw, 11px);
+        font-weight: 500;
+        letter-spacing: clamp(0.25em, 0.35em, 0.35em);
+        text-transform: uppercase;
+        color: #a3b398;
+        margin-bottom: 14px;
+    }
+
+    .guestbook__input,
+    .guestbook__textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #d4ddcb;
+        color: #5d7a5a;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(14px, 1.8vw, 16px);
+        font-weight: 300;
+        padding: 12px 0;
+        outline: none;
+        transition: border-color 0.3s ease;
+        letter-spacing: 0.01em;
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 0;
+    }
+
+    .guestbook__input::placeholder,
+    .guestbook__textarea::placeholder {
+        color: #c4d0b8;
+    }
+
+    .guestbook__input:focus,
+    .guestbook__textarea:focus {
+        border-bottom-color: #5d7a5a;
+    }
+
+    .guestbook__textarea {
+        resize: vertical;
+        min-height: 80px;
+        line-height: 1.6;
+        font-family: 'Manrope', sans-serif;
+    }
+
+    .guestbook__submit {
+        display: block;
+        align-self: center;
+        padding: clamp(16px, 2.5vw, 20px) clamp(32px, 5vw, 52px);
+        margin-top: clamp(16px, 2vw, 24px);
+        background: #5d7a5a;
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(11px, 1.5vw, 13px);
+        font-weight: 500;
+        letter-spacing: clamp(0.2em, 0.3em, 0.3em);
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .guestbook__submit::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #466148;
+        transform: translateX(-101%);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 0;
+    }
+
+    .guestbook__submit:hover::before,
+    .guestbook__submit:focus::before { transform: translateX(0); }
+
+    .guestbook__submit:active { transform: scale(0.98); }
+
+    .guestbook__submit span { position: relative; z-index: 1; }
+
+    /* Успех */
+    .guestbook__success {
+        display: none;
+        text-align: center;
+        padding: clamp(40px, 6vw, 60px) 20px;
+        margin-bottom: clamp(40px, 6vw, 64px);
+    }
+
+    .guestbook__success-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(24px, 4vw, 40px);
+        font-weight: 400;
+        font-style: italic;
+        color: #5d7a5a;
+        line-height: 1.3;
+        letter-spacing: 0.005em;
+        margin-bottom: 14px;
+    }
+
+    .guestbook__success-name { color: #5d7a5a; }
+
+    .guestbook__success-text {
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(13px, 1.7vw, 15px);
+        font-weight: 300;
+        line-height: 1.8;
+        color: #7a9473;
+        max-width: 400px;
+        margin: 0 auto;
+        letter-spacing: 0.01em;
+    }
+
+    /* Лента */
+    .guestbook__feed {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: clamp(16px, 2.5vw, 24px);
+        text-align: left;
+    }
+
+    .guestbook__empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: #a3b398;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(13px, 1.7vw, 15px);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.8;
+        padding: clamp(40px, 6vw, 60px) 20px;
+        letter-spacing: 0.01em;
+    }
+
+    .guestbook__wish {
+        position: relative;
+        background: #f6f8f3;
+        border: 1px solid #e6ecdf;
+        border-radius: 12px;
+        padding: clamp(22px, 3vw, 28px) clamp(22px, 3vw, 28px) clamp(18px, 2.5vw, 24px);
+        animation: wishIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes wishIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .guestbook__wish-name {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(17px, 2vw, 20px);
+        font-weight: 400;
+        font-style: italic;
+        color: #5d7a5a;
+        line-height: 1.3;
+        margin-bottom: 6px;
+        padding-right: 24px;
+    }
+
+    .guestbook__wish-date {
+        font-family: 'Manrope', sans-serif;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #a3b398;
+        margin-bottom: 14px;
+    }
+
+    .guestbook__wish-message {
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(13px, 1.6vw, 14px);
+        font-weight: 300;
+        line-height: 1.75;
+        color: #7a9473;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        letter-spacing: 0.01em;
+    }
+
+    .guestbook__wish-hide {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 26px;
+        height: 26px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: #c4d0b8;
+        font-size: 20px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: color 0.2s ease, background 0.2s ease;
+        padding: 0;
+    }
+
+    .guestbook__wish-hide:hover {
+        color: #cc8555;
+        background: rgba(204, 133, 85, 0.08);
+    }
+
+    /* ============================================
+       АДАПТИВ
     ============================================ */
     @media (min-width: 481px) and (max-width: 900px) {
         .invitation__inner,
         .timeline__inner {
             max-width: 560px;
         }
-        .calendar {
-            max-width: 400px;
-        }
+        .calendar { max-width: 400px; }
     }
 
     @media (max-width: 700px) {
@@ -978,9 +1230,7 @@
             max-width: 440px;
             margin: 0 auto;
         }
-        .dresscode__card {
-            text-align: center;
-        }
+        .dresscode__card { text-align: center; }
         .dresscode__card-photo {
             max-width: 400px;
             margin-left: auto;
@@ -1008,15 +1258,15 @@
             padding: 16px 0;
         }
 
-        .venue__photo::before {
-            transform: translate(6px, 6px);
-        }
+        .venue__photo::before { transform: translate(6px, 6px); }
 
-        .countdown__row {
-            gap: 6px;
-        }
-        .countdown__sep {
-            height: 22px;
+        .countdown__row { gap: 6px; }
+        .countdown__sep { height: 22px; }
+
+        .guestbook__feed { grid-template-columns: 1fr; }
+        .guestbook__submit {
+            width: 100%;
+            align-self: stretch;
         }
     }
 
@@ -1028,65 +1278,41 @@
             max-width: 280px;
             margin: 0 auto;
         }
-        .countdown__sep {
-            display: none;
-        }
-        .countdown__number {
-            font-size: clamp(30px, 10vw, 44px);
-        }
+        .countdown__sep { display: none; }
+        .countdown__number { font-size: clamp(30px, 10vw, 44px); }
         .countdown__label {
             font-size: 8px;
             letter-spacing: 0.25em;
         }
 
-        .hero__names {
-            font-size: 28px;
-        }
+        .hero__names { font-size: 28px; }
 
-        .calendar {
-            max-width: 290px;
-        }
+        .calendar { max-width: 290px; }
         .calendar__weekday {
             font-size: 7px;
             letter-spacing: 0.05em;
         }
-        .calendar__day {
-            font-size: 11px;
-        }
+        .calendar__day { font-size: 11px; }
 
         .timeline__item {
             grid-template-columns: 48px 1fr;
             gap: 12px;
         }
-        .timeline__time {
-            font-size: 11px;
-        }
-        .timeline__event {
-            font-size: 13px;
-        }
+        .timeline__time { font-size: 11px; }
+        .timeline__event { font-size: 13px; }
 
-        .dresscode__palette {
-            gap: 10px;
-        }
+        .dresscode__palette { gap: 10px; }
         .dresscode__circle {
             width: 40px;
             height: 40px;
         }
-        .dresscode__swatch-label {
-            font-size: 8px;
-        }
+        .dresscode__swatch-label { font-size: 8px; }
     }
 
     @media (max-width: 320px) {
-        .hero__names {
-            font-size: 26px;
-        }
-        .countdown__number {
-            font-size: 28px;
-        }
-        .calendar__weekday {
-            font-size: 7px;
-        }
+        .hero__names { font-size: 26px; }
+        .countdown__number { font-size: 28px; }
+        .calendar__weekday { font-size: 7px; }
     }
 
     @media (max-height: 500px) and (orientation: landscape) {
@@ -1099,40 +1325,34 @@
             font-size: clamp(26px, 7vh, 44px);
             margin-bottom: 6px;
         }
-        .hero__date {
-            font-size: 11px;
-        }
+        .hero__date { font-size: 11px; }
 
         .invitation,
         .timeline,
         .venue,
         .countdown,
         .dresscode,
-        .rsvp {
+        .rsvp,
+        .guestbook {
             padding-top: 48px;
             padding-bottom: 48px;
         }
 
         .timeline__title,
-        .countdown__kicker {
-            margin-bottom: 28px;
-        }
+        .countdown__kicker { margin-bottom: 28px; }
 
-        .venue__photo img {
-            aspect-ratio: 21 / 9;
-        }
+        .venue__photo img { aspect-ratio: 21 / 9; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-        .hero {
-            min-height: 100vh;
-        }
+        .hero { min-height: 100vh; }
         .invitation,
         .timeline,
         .venue,
         .countdown,
         .dresscode,
-        .rsvp {
+        .rsvp,
+        .guestbook {
             padding-top: 80px;
             padding-bottom: 80px;
         }
@@ -1143,12 +1363,8 @@
         .timeline__inner {
             max-width: 720px;
         }
-        .invitation__text {
-            max-width: 600px;
-        }
-        .venue__inner {
-            max-width: 1100px;
-        }
+        .invitation__text { max-width: 600px; }
+        .venue__inner { max-width: 1100px; }
     }
 
     @media (min-width: 1920px) {
@@ -1161,12 +1377,11 @@
         .timeline__title,
         .dresscode__title,
         .rsvp__title,
-        .venue__title { font-size: 62px; }
+        .venue__title,
+        .guestbook__title { font-size: 62px; }
 
         .timeline__event { font-size: 19px; }
-
         .countdown__number { font-size: 116px; }
-
         .dresscode__card-title { font-size: 38px; }
     }
 
@@ -1182,18 +1397,21 @@
         .timeline__title,
         .dresscode__title,
         .rsvp__title,
-        .venue__title { font-size: 76px; }
+        .venue__title,
+        .guestbook__title { font-size: 76px; }
 
         .timeline__event { font-size: 22px; }
         .timeline__note { font-size: 16px; }
-
         .countdown__number { font-size: 148px; }
         .countdown__label { font-size: 14px; }
-
         .dresscode__card-title { font-size: 46px; }
         .dresscode__card-text { font-size: 18px; }
-
         .venue__inner { max-width: 1400px; }
+
+        .guestbook__inner { max-width: 900px; }
+        .guestbook__text { font-size: 20px; }
+        .guestbook__wish-name { font-size: 24px; }
+        .guestbook__wish-message { font-size: 17px; }
     }
 </style>
 </head>
@@ -1537,10 +1755,81 @@
         </div>
     </section>
 
+    <!-- БЛОК 8: ГОСТЕВАЯ КНИГА -->
+    <section class="guestbook">
+        <div class="guestbook__inner">
+
+            <div class="guestbook__kicker reveal">Пожелания</div>
+
+            <h2 class="guestbook__title reveal reveal--delay-1">Оставьте тёплые слова</h2>
+
+            <p class="guestbook__text reveal reveal--delay-1">
+                Поделитесь пожеланиями, воспоминаниями или просто добрыми
+                словами — мы будем перечитывать их снова и снова.
+            </p>
+
+            <!-- ФОРМА -->
+            <form id="guestbook-form" class="guestbook__form reveal reveal--delay-2" novalidate>
+
+                <div class="guestbook__field">
+                    <label class="guestbook__label" for="gb-name">Ваше имя</label>
+                    <input
+                        type="text"
+                        id="gb-name"
+                        name="name"
+                        class="guestbook__input"
+                        placeholder="Как вас представить?"
+                        autocomplete="name"
+                        maxlength="60"
+                        required
+                    >
+                </div>
+
+                <div class="guestbook__field">
+                    <label class="guestbook__label" for="gb-message">Пожелание</label>
+                    <textarea
+                        id="gb-message"
+                        name="message"
+                        class="guestbook__textarea"
+                        placeholder="Ваши слова для нас"
+                        maxlength="500"
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="guestbook__submit">
+                    <span>Отправить пожелание</span>
+                </button>
+
+            </form>
+
+            <!-- СООБЩЕНИЕ ПОСЛЕ ОТПРАВКИ -->
+            <div class="guestbook__success" id="guestbook-success">
+                <div class="guestbook__success-title">
+                    Спасибо, <span class="guestbook__success-name" id="guestbook-success-name"></span>!
+                </div>
+                <div class="guestbook__success-text">
+                    Ваше пожелание добавлено. Мы очень тронуты.
+                </div>
+            </div>
+
+            <!-- ЛЕНТА ПОЖЕЛАНИЙ -->
+            <div class="guestbook__feed" id="guestbook-feed">
+                <div class="guestbook__empty" id="guestbook-empty">
+                    Пока здесь тихо — станьте первым, кто оставит тёплые слова.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 <script>
 (function () {
     'use strict';
 
+    // ============================================
+    // АНИМАЦИЯ ПОЯВЛЕНИЯ
+    // ============================================
     const options = {
         root: null,
         rootMargin: '0px 0px -10% 0px',
@@ -1576,6 +1865,9 @@
         });
     }
 
+    // ============================================
+    // ТАЙМЕР
+    // ============================================
     const WEDDING_DATE = new Date(2026, 11, 1, 14, 0, 0);
 
     const elDays    = document.getElementById('cd-days');
@@ -1614,6 +1906,9 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
+    // ============================================
+    // RSVP
+    // ============================================
     const form    = document.getElementById('rsvp-form');
     const success = document.getElementById('rsvp-success');
 
@@ -1647,6 +1942,159 @@
         form.style.display = 'none';
         success.style.display = 'block';
     });
+
+    // ============================================
+    // ГОСТЕВАЯ КНИГА
+    // ============================================
+    const GUESTBOOK_KEY = 'wedding-guestbook-v1';
+
+    const gbForm         = document.getElementById('guestbook-form');
+    const gbFeed         = document.getElementById('guestbook-feed');
+    const gbEmpty        = document.getElementById('guestbook-empty');
+    const gbSuccess      = document.getElementById('guestbook-success');
+    const gbSuccessName  = document.getElementById('guestbook-success-name');
+    const gbNameInput    = document.getElementById('gb-name');
+    const gbMessageInput = document.getElementById('gb-message');
+
+    // Режим админа: ?admin=1
+    const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
+
+    function loadWishes() {
+        try {
+            const raw = localStorage.getItem(GUESTBOOK_KEY);
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveWishes(wishes) {
+        try {
+            localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(wishes));
+        } catch (e) {
+            console.warn('Не удалось сохранить пожелания', e);
+        }
+    }
+
+    function formatWishDate(iso) {
+        const d = new Date(iso);
+        const months = [
+            'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+            'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+        ];
+        return d.getDate() + ' ' + months[d.getMonth()];
+    }
+
+    function renderWishes() {
+        const wishes = loadWishes();
+        const visible = wishes.filter(function (w) { return !w.hidden; });
+
+        // Удаляем карточки (кроме заглушки)
+        gbFeed.querySelectorAll('.guestbook__wish').forEach(function (el) {
+            el.remove();
+        });
+
+        if (visible.length === 0) {
+            gbEmpty.style.display = 'block';
+            return;
+        }
+        gbEmpty.style.display = 'none';
+
+        visible.sort(function (a, b) {
+            return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+
+        visible.forEach(function (wish) {
+            const card = document.createElement('div');
+            card.className = 'guestbook__wish';
+            card.dataset.id = wish.id;
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'guestbook__wish-name';
+            nameEl.textContent = wish.name;
+
+            const dateEl = document.createElement('div');
+            dateEl.className = 'guestbook__wish-date';
+            dateEl.textContent = formatWishDate(wish.timestamp);
+
+            const msgEl = document.createElement('div');
+            msgEl.className = 'guestbook__wish-message';
+            msgEl.textContent = wish.message;
+
+            card.appendChild(nameEl);
+            card.appendChild(dateEl);
+            card.appendChild(msgEl);
+
+            if (isAdmin) {
+                const hideBtn = document.createElement('button');
+                hideBtn.type = 'button';
+                hideBtn.className = 'guestbook__wish-hide';
+                hideBtn.setAttribute('aria-label', 'Скрыть пожелание');
+                hideBtn.textContent = '×';
+                hideBtn.addEventListener('click', function () {
+                    hideWish(wish.id);
+                });
+                card.appendChild(hideBtn);
+            }
+
+            gbFeed.appendChild(card);
+        });
+    }
+
+    function hideWish(id) {
+        const wishes = loadWishes();
+        const wish = wishes.find(function (w) { return w.id === id; });
+        if (wish) {
+            wish.hidden = true;
+            saveWishes(wishes);
+            renderWishes();
+        }
+    }
+
+    if (gbForm) {
+        gbForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = gbNameInput.value.trim();
+            const message = gbMessageInput.value.trim();
+
+            if (!name) {
+                gbNameInput.focus();
+                return;
+            }
+            if (!message) {
+                gbMessageInput.focus();
+                return;
+            }
+
+            const wish = {
+                id: 'w_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                name: name,
+                message: message,
+                timestamp: new Date().toISOString(),
+                hidden: false
+            };
+
+            const wishes = loadWishes();
+            wishes.push(wish);
+            saveWishes(wishes);
+
+            gbSuccessName.textContent = name;
+            gbForm.style.display = 'none';
+            gbSuccess.style.display = 'block';
+
+            renderWishes();
+
+            setTimeout(function () {
+                gbForm.style.display = 'flex';
+                gbSuccess.style.display = 'none';
+                gbNameInput.value = '';
+                gbMessageInput.value = '';
+            }, 4000);
+        });
+    }
+
+    renderWishes();
 
 })();
 </script>
