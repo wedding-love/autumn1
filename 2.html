@@ -29,6 +29,7 @@
     html, body {
         background: #ffffff;
         min-height: 100%;
+        overflow-x: hidden;
     }
 
     body {
@@ -36,7 +37,6 @@
         color: #5d7a5a;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        overflow-x: hidden;
         opacity: 0;
         animation: fadeIn 0.8s ease forwards;
         font-synthesis: none;
@@ -73,8 +73,7 @@
     }
 
     /* ============================================
-       БЛОК 1: ФОТО-ФОН + ИМЕНА ВНИЗУ
-       Адаптивно под все пропорции экранов
+       БЛОК 1: HERO — ФОТО + ИМЕНА
     ============================================ */
     .hero {
         position: relative;
@@ -94,55 +93,43 @@
             max(clamp(20px, 5vw, 48px), env(safe-area-inset-left));
         background-image: url('1.png');
         background-size: cover;
-        background-position: center center;
+        background-position: center 25%;
         background-repeat: no-repeat;
     }
 
-    /* ===== АДАПТАЦИЯ HERO ПОД РАЗНЫЕ ПРОПОРЦИИ ЭКРАНОВ ===== */
-
-    /* Мобильные в портрете — фокус на верхнюю часть фото */
+    /* Мобильные портрет */
     @media (max-width: 768px) and (orientation: portrait) {
-        .hero { background-position: center 40%; }
+        .hero { background-position: center 25%; }
     }
 
-    /* Ноутбуки 16:9 — стандарт (1366×768, 1440×810, 1920×1080) */
+    /* Мобильные ландшафт */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .hero { background-position: center 20%; }
+    }
+
+    /* Ноутбуки 16:9 */
     @media (min-width: 1024px) and (min-aspect-ratio: 16/9) {
-        .hero {
-            background-position: center 45%;
-        }
+        .hero { background-position: center 20%; }
     }
 
-    /* Ультраширокие мониторы 21:9 (2560×1080) */
-    @media (min-width: 2000px) and (min-aspect-ratio: 21/9) {
-        .hero {
-            background-position: center 50%;
-        }
-    }
-
-    /* Ноутбуки 16:10 (MacBook 1280×800, 1440×900, 1680×1050) */
+    /* MacBook 16:10 */
     @media (min-width: 1280px) and (min-aspect-ratio: 16/10) and (max-aspect-ratio: 16/9) {
-        .hero {
-            background-position: center 48%;
-        }
+        .hero { background-position: center 22%; }
     }
 
-    /* Компактные ноутбуки 4:3 / 3:2 (Surface, старые MacBook) */
-    @media (min-width: 1024px) and (max-aspect-ratio: 3/2) {
-        .hero {
-            background-position: center 42%;
-        }
+    /* Компактные 4:3 / 3:2 */
+    @media (min-width: 900px) and (max-aspect-ratio: 3/2) {
+        .hero { background-position: center 20%; }
     }
 
-    /* Ландшафт на телефоне — фокус по центру */
-    @media (max-height: 500px) {
-        .hero { background-position: center center; }
+    /* Ультраширокие 21:9 */
+    @media (min-width: 2000px) and (min-aspect-ratio: 21/9) {
+        .hero { background-position: center 18%; }
     }
 
-    /* Планшеты горизонтально (1024×768, 4:3) */
+    /* Планшеты горизонтально */
     @media (min-width: 900px) and (max-width: 1200px) and (orientation: landscape) {
-        .hero {
-            background-position: center 45%;
-        }
+        .hero { background-position: center 20%; }
     }
 
     .hero__names {
@@ -159,7 +146,7 @@
         overflow-wrap: break-word;
         hyphens: auto;
         padding: 0 8px;
-        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
     }
 
     .hero__names .amp {
@@ -178,7 +165,7 @@
         text-transform: uppercase;
         color: #ffffff;
         opacity: 0.95;
-        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
     }
 
     section { position: relative; }
@@ -231,7 +218,7 @@
         margin: clamp(32px, 5vw, 48px) auto;
     }
 
-    /* ===== КАЛЕНДАРЬ ===== */
+    /* КАЛЕНДАРЬ */
     .calendar {
         max-width: 420px;
         margin: 0 auto;
@@ -504,6 +491,7 @@
         display: block;
         width: 100%;
         height: auto;
+        max-height: 600px;
         aspect-ratio: 16 / 9;
         object-fit: cover;
         border-radius: 4px;
@@ -586,7 +574,6 @@
 
     /* ============================================
        БЛОК 6: ДРЕСС-КОД
-       Свотчи — прямоугольники, не кружки
     ============================================ */
     .dresscode {
         background: #ffffff;
@@ -651,10 +638,10 @@
         gap: 12px;
     }
 
-    /* ПРЯМОУГОЛЬНЫЕ СВОТЧИ вместо кружков */
+    /* ГОРИЗОНТАЛЬНЫЕ прямоугольники */
     .dresscode__rect {
-        width: clamp(48px, 6vw, 64px);
-        height: clamp(72px, 9vw, 96px);
+        width: clamp(80px, 12vw, 110px);
+        height: clamp(44px, 6vw, 56px);
         border-radius: 3px;
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
     }
@@ -1017,7 +1004,6 @@
         letter-spacing: 0.01em;
     }
 
-    /* ФОРМА */
     .guestbook__form {
         display: flex;
         flex-direction: column;
@@ -1109,7 +1095,11 @@
 
     .guestbook__submit span { position: relative; z-index: 1; }
 
-    /* УСПЕХ */
+    .guestbook__submit[disabled] {
+        opacity: 0.6;
+        cursor: wait;
+    }
+
     .guestbook__success {
         display: none;
         text-align: center;
@@ -1139,9 +1129,7 @@
         margin: 0 auto;
     }
 
-    /* ============================================
-       КИНОПЛЁНКА
-    ============================================ */
+    /* КИНОПЛЁНКА */
     .film {
         position: relative;
         margin: 0 auto;
@@ -1372,6 +1360,23 @@
         background: rgba(204, 133, 85, 0.1);
     }
 
+    /* Статус синхронизации */
+    .guestbook__status {
+        font-family: 'Manrope', sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #c4d0b8;
+        margin-top: 16px;
+        text-align: center;
+    }
+
+    .guestbook__status--cloud::before {
+        content: '☁ ';
+        font-size: 12px;
+    }
+
     /* ============================================
        АДАПТИВ
     ============================================ */
@@ -1455,7 +1460,7 @@
         .timeline__event { font-size: 13px; }
 
         .dresscode__palette { gap: 10px; }
-        .dresscode__rect { width: 42px; height: 64px; }
+        .dresscode__rect { width: 68px; height: 38px; }
         .dresscode__swatch-label { font-size: 8px; }
     }
 
@@ -1566,16 +1571,15 @@
 </head>
 <body>
 
-    <!-- БЛОК 1: ФОТО + ИМЕНА -->
+    <!-- БЛОК 1: HERO -->
     <section class="hero">
         <h1 class="hero__names reveal">Александр <span class="amp">&amp;</span> Елена</h1>
         <div class="hero__date reveal reveal--delay-2">01.12.2026</div>
     </section>
 
-    <!-- БЛОК 2: ПРИГЛАШЕНИЕ + КАЛЕНДАРЬ -->
+    <!-- БЛОК 2: ПРИГЛАШЕНИЕ -->
     <section class="invitation">
         <div class="invitation__inner">
-
             <h2 class="invitation__greeting reveal">Дорогие родные и друзья!</h2>
 
             <p class="invitation__text reveal reveal--delay-1">
@@ -1615,16 +1619,13 @@
                     <div class="calendar__day">6</div>
                 </div>
             </div>
-
         </div>
     </section>
 
     <!-- БЛОК 3: ТАЙМИНГ -->
     <section class="timeline">
         <div class="timeline__inner">
-
             <div class="timeline__kicker reveal">Программа дня</div>
-
             <h2 class="timeline__title reveal reveal--delay-1">Как пройдёт наш вечер</h2>
 
             <ul class="timeline__list">
@@ -1668,16 +1669,13 @@
                     </span>
                 </li>
             </ul>
-
         </div>
     </section>
 
     <!-- БЛОК 4: МЕСТО ПРОВЕДЕНИЯ -->
     <section class="venue">
         <div class="venue__inner">
-
             <div class="venue__kicker reveal">Место проведения</div>
-
             <h2 class="venue__title reveal reveal--delay-1">Усадьба «Лесная»</h2>
 
             <div class="venue__address reveal reveal--delay-2">
@@ -1698,55 +1696,42 @@
             <div class="venue__photo reveal reveal--delay-2">
                 <img src="9cf6a74fa2e574fe14621d7445a681aa.jpg" alt="Место проведения">
             </div>
-
         </div>
     </section>
 
     <!-- БЛОК 5: ТАЙМЕР -->
     <section class="countdown">
         <div class="countdown__inner">
-
             <div class="countdown__kicker reveal">До торжества осталось</div>
 
             <div class="countdown__row" id="countdown">
-
                 <div class="countdown__unit reveal reveal--delay-1">
                     <div class="countdown__number" id="cd-days">00</div>
                     <div class="countdown__label">Дней</div>
                 </div>
-
                 <div class="countdown__sep" aria-hidden="true"></div>
-
                 <div class="countdown__unit reveal reveal--delay-1">
                     <div class="countdown__number" id="cd-hours">00</div>
                     <div class="countdown__label">Часов</div>
                 </div>
-
                 <div class="countdown__sep" aria-hidden="true"></div>
-
                 <div class="countdown__unit reveal reveal--delay-2">
                     <div class="countdown__number" id="cd-minutes">00</div>
                     <div class="countdown__label">Минут</div>
                 </div>
-
                 <div class="countdown__sep" aria-hidden="true"></div>
-
                 <div class="countdown__unit reveal reveal--delay-2">
                     <div class="countdown__number" id="cd-seconds">00</div>
                     <div class="countdown__label">Секунд</div>
                 </div>
-
             </div>
-
         </div>
     </section>
 
     <!-- БЛОК 6: ДРЕСС-КОД -->
     <section class="dresscode">
         <div class="dresscode__inner">
-
             <div class="dresscode__kicker reveal">Дресс-код</div>
-
             <h2 class="dresscode__title reveal reveal--delay-1">Осенняя палитра</h2>
 
             <p class="dresscode__text reveal reveal--delay-1">
@@ -1771,7 +1756,6 @@
             </div>
 
             <div class="dresscode__cards">
-
                 <div class="dresscode__card reveal reveal--delay-2">
                     <div class="dresscode__card-photo">
                         <img src="ChatGPT Image 24 сент. 2026 г., 17_54_34.png" alt="Пример женского образа">
@@ -1797,18 +1781,14 @@
                         торжества.
                     </p>
                 </div>
-
             </div>
-
         </div>
     </section>
 
     <!-- БЛОК 7: RSVP -->
     <section class="rsvp">
         <div class="rsvp__inner">
-
             <div class="rsvp__kicker reveal">Подтверждение</div>
-
             <h2 class="rsvp__title reveal reveal--delay-1">Будете ли вы с нами?</h2>
 
             <p class="rsvp__text reveal reveal--delay-1">
@@ -1817,7 +1797,6 @@
             </p>
 
             <form id="rsvp-form" class="reveal reveal--delay-2" novalidate>
-
                 <div class="rsvp__field">
                     <label class="rsvp__label" for="rsvp-name">Имя и фамилия</label>
                     <input
@@ -1891,7 +1870,6 @@
                 <button type="submit" class="rsvp__submit">
                     <span>Отправить ответ</span>
                 </button>
-
             </form>
 
             <div class="rsvp__success" id="rsvp-success">
@@ -1900,16 +1878,13 @@
                     Мы получили ваш ответ и очень ждём встречи.
                 </div>
             </div>
-
         </div>
     </section>
 
     <!-- БЛОК 8: ГОСТЕВАЯ КНИГА — КИНОПЛЁНКА -->
     <section class="guestbook">
         <div class="guestbook__inner">
-
             <div class="guestbook__kicker reveal">Пожелания</div>
-
             <h2 class="guestbook__title reveal reveal--delay-1">Кадры нашей истории</h2>
 
             <p class="guestbook__text reveal reveal--delay-1">
@@ -1917,7 +1892,6 @@
             </p>
 
             <form id="guestbook-form" class="guestbook__form reveal reveal--delay-2" novalidate>
-
                 <div class="guestbook__field">
                     <label class="guestbook__label" for="gb-name">Ваше имя</label>
                     <input
@@ -1944,10 +1918,9 @@
                     ></textarea>
                 </div>
 
-                <button type="submit" class="guestbook__submit">
+                <button type="submit" class="guestbook__submit" id="gb-submit">
                     <span>Добавить в плёнку</span>
                 </button>
-
             </form>
 
             <div class="guestbook__success" id="guestbook-success">
@@ -1963,9 +1936,7 @@
                 <button class="film__nav film__nav--prev" id="film-prev" type="button" aria-label="Назад">‹</button>
 
                 <div class="film__viewport" id="film-viewport">
-                    <div class="film__track" id="film-track">
-                        <!-- Кадры генерируются JS -->
-                    </div>
+                    <div class="film__track" id="film-track"></div>
                 </div>
 
                 <button class="film__nav film__nav--next" id="film-next" type="button" aria-label="Вперёд">›</button>
@@ -1975,8 +1946,67 @@
                 </div>
             </div>
 
+            <div class="guestbook__status" id="guestbook-status"></div>
         </div>
     </section>
+
+<!-- ============================================
+     FIREBASE (опционально)
+     Замени все "ВАШ_..." на свои значения.
+     Если оставить как есть — сайт будет работать
+     на localStorage (пожелания видны только автору).
+     Инструкция ниже.
+============================================ -->
+<script type="module">
+    // ===== НАСТРОЙКИ FIREBASE =====
+    // Если ключи не заполнены — fallback на localStorage
+    const firebaseConfig = {
+        apiKey:            "ВАШ_API_KEY",
+        authDomain:        "ВАШ_ПРОЕКТ.firebaseapp.com",
+        projectId:         "ВАШ_ПРОЕКТ_ID",
+        storageBucket:     "ВАШ_ПРОЕКТ.appspot.com",
+        messagingSenderId: "ВАШ_SENDER_ID",
+        appId:             "ВАШ_APP_ID"
+    };
+
+    // Проверка: настроен ли Firebase
+    const isFirebaseConfigured = !firebaseConfig.apiKey.includes('ВАШ_');
+
+    if (isFirebaseConfigured) {
+        try {
+            const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+            const {
+                getFirestore, collection, addDoc, onSnapshot,
+                query, orderBy, serverTimestamp, doc, updateDoc
+            } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            // Передаём функции в основную часть
+            window.firebaseReady = true;
+            window.firebaseDB = db;
+            window.firebaseFns = {
+                collection, addDoc, onSnapshot, query,
+                orderBy, serverTimestamp, doc, updateDoc
+            };
+
+            // Сообщаем, что Firebase готов
+            window.dispatchEvent(new Event('firebase-ready'));
+        } catch (err) {
+            console.warn('Firebase не подключён, использую localStorage', err);
+            window.firebaseReady = false;
+        }
+    } else {
+        window.firebaseReady = false;
+        console.info(
+            '%c📝 Пожелания сохраняются в localStorage.\n' +
+            'Чтобы они были видны ВСЕМ гостям — подключи Firebase.\n' +
+            'Инструкция в комментариях кода.',
+            'color: #5d7a5a; font-size: 13px; line-height: 1.6;'
+        );
+    }
+</script>
 
 <script>
 (function () {
@@ -2077,9 +2107,7 @@
         }
 
         const attendance = form.querySelector('input[name="attendance"]:checked');
-        if (!attendance) {
-            return;
-        }
+        if (!attendance) return;
 
         const drinks = Array.from(form.querySelectorAll('input[name="drink"]:checked'))
             .map(function (el) { return el.value; });
@@ -2099,19 +2127,19 @@
     });
 
     // ============================================
-    // ГОСТЕВАЯ КНИГА — КИНОПЛЁНКА
-    // Ключ обновлён: старые пожелания автоматически удалятся
+    // ГОСТЕВАЯ КНИГА — ГИБРИД: Firebase или localStorage
     // ============================================
-    const GUESTBOOK_KEY = 'wedding-guestbook-v2';
-
-    // На всякий случай чистим старый ключ v1
+    const LOCAL_KEY = 'wedding-guestbook-v3';
     try { localStorage.removeItem('wedding-guestbook-v1'); } catch (e) {}
+    try { localStorage.removeItem('wedding-guestbook-v2'); } catch (e) {}
 
     const gbForm         = document.getElementById('guestbook-form');
+    const gbSubmit       = document.getElementById('gb-submit');
     const gbSuccess      = document.getElementById('guestbook-success');
     const gbSuccessName  = document.getElementById('guestbook-success-name');
     const gbNameInput    = document.getElementById('gb-name');
     const gbMessageInput = document.getElementById('gb-message');
+    const gbStatus       = document.getElementById('guestbook-status');
 
     const filmViewport = document.getElementById('film-viewport');
     const filmTrack    = document.getElementById('film-track');
@@ -2121,39 +2149,39 @@
 
     const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
 
-    function loadWishes() {
-        try {
-            const raw = localStorage.getItem(GUESTBOOK_KEY);
-            return raw ? JSON.parse(raw) : [];
-        } catch (e) {
-            return [];
-        }
-    }
+    // Определяем, используем ли Firebase
+    let useFirebase = false;
 
-    function saveWishes(wishes) {
-        try {
-            localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(wishes));
-        } catch (e) {
-            console.warn('Не удалось сохранить пожелания', e);
-        }
-    }
+    window.addEventListener('firebase-ready', function () {
+        useFirebase = true;
+        gbStatus.textContent = 'Синхронизация с облаком активна';
+        gbStatus.classList.add('guestbook__status--cloud');
+        initFirebase();
+    });
 
-    function formatWishDate(iso) {
-        const d = new Date(iso);
+    // Небольшая задержка, чтобы дождаться ответа Firebase module
+    setTimeout(function () {
+        if (!useFirebase) {
+            gbStatus.textContent = 'Локальный режим (виден только вам)';
+            initLocalStorage();
+        }
+    }, 800);
+
+    // ============================================
+    // РЕНДЕР ОБЩИЙ
+    // ============================================
+    function formatWishDate(date) {
         const months = [
             'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
             'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
         ];
-        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
     }
 
-    function renderWishes() {
-        const wishes = loadWishes();
-        const visible = wishes.filter(function (w) { return !w.hidden; });
-
+    function renderWishes(wishes) {
         filmTrack.innerHTML = '';
 
-        if (visible.length === 0) {
+        if (wishes.length === 0) {
             filmEmpty.classList.add('film__empty--visible');
             filmViewport.style.display = 'none';
             if (filmPrev) filmPrev.style.display = 'none';
@@ -2166,18 +2194,14 @@
         if (filmPrev) filmPrev.style.display = '';
         if (filmNext) filmNext.style.display = '';
 
-        visible.sort(function (a, b) {
-            return new Date(b.timestamp) - new Date(a.timestamp);
-        });
-
-        visible.forEach(function (wish, index) {
+        wishes.forEach(function (wish, index) {
             const frame = document.createElement('div');
             frame.className = 'film__frame';
             frame.dataset.id = wish.id;
 
             const num = document.createElement('span');
             num.className = 'film__frame-num';
-            num.textContent = String(visible.length - index).padStart(2, '0');
+            num.textContent = String(wishes.length - index).padStart(2, '0');
             frame.appendChild(num);
 
             const nameEl = document.createElement('div');
@@ -2213,88 +2237,205 @@
         updateFilmNav();
     }
 
-    function hideWish(id) {
-        const wishes = loadWishes();
-        const wish = wishes.find(function (w) { return w.id === id; });
-        if (wish) {
-            wish.hidden = true;
-            saveWishes(wishes);
-            renderWishes();
-        }
-    }
-
+    // ============================================
+    // НАВИГАЦИЯ ПО ПЛЁНКЕ
+    // ============================================
     function scrollFilmBy(direction) {
         const frame = filmTrack.querySelector('.film__frame');
         if (!frame) return;
         const frameWidth = frame.offsetWidth + 12;
-        filmTrack.scrollBy({
-            left: direction * frameWidth,
-            behavior: 'smooth'
-        });
+        filmTrack.scrollBy({ left: direction * frameWidth, behavior: 'smooth' });
     }
 
     function updateFilmNav() {
         if (!filmPrev || !filmNext) return;
         const scrollLeft = filmTrack.scrollLeft;
         const maxScroll = filmTrack.scrollWidth - filmTrack.clientWidth;
-
         filmPrev.disabled = scrollLeft <= 2;
         filmNext.disabled = scrollLeft >= maxScroll - 2;
     }
 
-    if (filmPrev) {
-        filmPrev.addEventListener('click', function () { scrollFilmBy(-1); });
-    }
-    if (filmNext) {
-        filmNext.addEventListener('click', function () { scrollFilmBy(1); });
-    }
+    if (filmPrev) filmPrev.addEventListener('click', function () { scrollFilmBy(-1); });
+    if (filmNext) filmNext.addEventListener('click', function () { scrollFilmBy(1); });
     if (filmTrack) {
         filmTrack.addEventListener('scroll', updateFilmNav, { passive: true });
         window.addEventListener('resize', updateFilmNav);
     }
 
-    if (gbForm) {
-        gbForm.addEventListener('submit', function (e) {
+    // ============================================
+    // ПОДАЧА И УСПЕХ
+    // ============================================
+    function showSuccess(name) {
+        gbSuccessName.textContent = name;
+        gbForm.style.display = 'none';
+        gbSuccess.style.display = 'block';
+        setTimeout(function () {
+            gbForm.style.display = 'flex';
+            gbSuccess.style.display = 'none';
+            gbNameInput.value = '';
+            gbMessageInput.value = '';
+        }, 4000);
+    }
+
+    function setSubmitting(isSubmitting) {
+        gbSubmit.disabled = isSubmitting;
+        const span = gbSubmit.querySelector('span');
+        span.textContent = isSubmitting ? 'Отправляем…' : 'Добавить в плёнку';
+    }
+
+    function validateForm() {
+        const name = gbNameInput.value.trim();
+        const message = gbMessageInput.value.trim();
+        if (!name) { gbNameInput.focus(); return null; }
+        if (!message) { gbMessageInput.focus(); return null; }
+        return { name: name, message: message };
+    }
+
+    // ============================================
+    // FIREBASE MODE
+    // ============================================
+    let fbCollection, fbAddDoc, fbOnSnapshot, fbQuery, fbOrderBy,
+        fbServerTimestamp, fbDoc, fbUpdateDoc;
+
+    function initFirebase() {
+        const fns = window.firebaseFns;
+        const db = window.firebaseDB;
+
+        fbCollection = fns.collection;
+        fbAddDoc    = fns.addDoc;
+        fbOnSnapshot = fns.onSnapshot;
+        fbQuery     = fns.query;
+        fbOrderBy   = fns.orderBy;
+        fbServerTimestamp = fns.serverTimestamp;
+        fbDoc       = fns.doc;
+        fbUpdateDoc = fns.updateDoc;
+
+        const guestbookRef = fbCollection(db, 'guestbook');
+        const q = fbQuery(guestbookRef, fbOrderBy('timestamp', 'desc'));
+
+        // Реалтайм-подписка
+        fbOnSnapshot(q, function (snapshot) {
+            const visible = [];
+            snapshot.forEach(function (docSnap) {
+                const data = docSnap.data();
+                if (data.hidden) return;
+                visible.push({
+                    id: docSnap.id,
+                    name: data.name,
+                    message: data.message,
+                    timestamp: data.timestamp && data.timestamp.toDate
+                        ? data.timestamp.toDate()
+                        : new Date()
+                });
+            });
+            renderWishes(visible);
+        });
+
+        // Отправка
+        gbForm.addEventListener('submit', async function (e) {
             e.preventDefault();
+            const data = validateForm();
+            if (!data) return;
 
-            const name = gbNameInput.value.trim();
-            const message = gbMessageInput.value.trim();
+            setSubmitting(true);
+            try {
+                await fbAddDoc(guestbookRef, {
+                    name: data.name,
+                    message: data.message,
+                    timestamp: fbServerTimestamp(),
+                    hidden: false
+                });
 
-            if (!name) { gbNameInput.focus(); return; }
-            if (!message) { gbMessageInput.focus(); return; }
-
-            const wish = {
-                id: 'w_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-                name: name,
-                message: message,
-                timestamp: new Date().toISOString(),
-                hidden: false
-            };
-
-            const wishes = loadWishes();
-            wishes.push(wish);
-            saveWishes(wishes);
-
-            gbSuccessName.textContent = name;
-            gbForm.style.display = 'none';
-            gbSuccess.style.display = 'block';
-
-            renderWishes();
-
-            setTimeout(function () {
-                filmTrack.scrollTo({ left: 0, behavior: 'smooth' });
-            }, 100);
-
-            setTimeout(function () {
-                gbForm.style.display = 'flex';
-                gbSuccess.style.display = 'none';
-                gbNameInput.value = '';
-                gbMessageInput.value = '';
-            }, 4000);
+                showSuccess(data.name);
+                setTimeout(function () {
+                    filmTrack.scrollTo({ left: 0, behavior: 'smooth' });
+                }, 300);
+            } catch (err) {
+                console.error('Ошибка отправки:', err);
+                alert('Не удалось отправить пожелание. Проверьте интернет и попробуйте снова.');
+            } finally {
+                setSubmitting(false);
+            }
         });
     }
 
-    renderWishes();
+    async function hideWish(id) {
+        if (!useFirebase) {
+            // Локальный режим
+            const all = loadLocal();
+            const wish = all.find(function (w) { return w.id === id; });
+            if (wish) {
+                wish.hidden = true;
+                saveLocal(all);
+                renderWishes(all.filter(function (w) { return !w.hidden; }));
+            }
+            return;
+        }
+
+        try {
+            const docRef = fbDoc(window.firebaseDB, 'guestbook', id);
+            await fbUpdateDoc(docRef, { hidden: true });
+        } catch (err) {
+            console.error('Ошибка скрытия:', err);
+        }
+    }
+
+    // ============================================
+    // LOCALSTORAGE MODE
+    // ============================================
+    function loadLocal() {
+        try {
+            const raw = localStorage.getItem(LOCAL_KEY);
+            return raw ? JSON.parse(raw).map(function (w) {
+                return Object.assign({}, w, { timestamp: new Date(w.timestamp) });
+            }) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveLocal(wishes) {
+        try {
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(wishes));
+        } catch (e) {
+            console.warn('Не удалось сохранить', e);
+        }
+    }
+
+    function initLocalStorage() {
+        function refresh() {
+            const all = loadLocal();
+            const visible = all.filter(function (w) { return !w.hidden; });
+            visible.sort(function (a, b) { return b.timestamp - a.timestamp; });
+            renderWishes(visible);
+        }
+
+        refresh();
+
+        gbForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const data = validateForm();
+            if (!data) return;
+
+            const wish = {
+                id: 'w_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                name: data.name,
+                message: data.message,
+                timestamp: new Date(),
+                hidden: false
+            };
+
+            const all = loadLocal();
+            all.push(wish);
+            saveLocal(all);
+            showSuccess(data.name);
+            refresh();
+
+            setTimeout(function () {
+                filmTrack.scrollTo({ left: 0, behavior: 'smooth' });
+            }, 300);
+        });
+    }
 
 })();
 </script>
