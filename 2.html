@@ -43,9 +43,6 @@
         to { opacity: 1; }
     }
 
-    /* ============================================
-       АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ
-    ============================================ */
     .reveal {
         opacity: 0;
         transform: translateY(40px);
@@ -340,7 +337,7 @@
     }
 
     /* ============================================
-       БЛОК 4: МЕСТО ПРОВЕДЕНИЯ
+       БЛОК 4: МЕСТО ПРОВЕДЕНИЯ — ТЕКСТ СВЕРХУ, ФОТО СНИЗУ
     ============================================ */
     .venue {
         background: #ffffff;
@@ -352,46 +349,9 @@
     }
 
     .venue__inner {
-        max-width: 1200px;
+        max-width: 960px;
         margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: clamp(32px, 6vw, 80px);
-        align-items: center;
-    }
-
-    /* Фото с лёгким смещением — необычно */
-    .venue__photo {
-        position: relative;
-        width: 100%;
-    }
-
-    .venue__photo::before {
-        /* Тонкая зелёная рамка-смещение сзади */
-        content: '';
-        position: absolute;
-        inset: 0;
-        border: 1px solid #cdd9d2;
-        border-radius: 4px;
-        transform: translate(12px, 12px);
-        pointer-events: none;
-    }
-
-    .venue__photo img {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 4 / 5;
-        object-fit: cover;
-        border-radius: 4px;
-        z-index: 1;
-    }
-
-    .venue__content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        text-align: center;
     }
 
     .venue__kicker {
@@ -401,45 +361,37 @@
         letter-spacing: 0.45em;
         text-transform: uppercase;
         color: #99a89f;
-        margin-bottom: clamp(14px, 2vw, 18px);
+        margin-bottom: clamp(16px, 2.5vw, 22px);
     }
 
     .venue__title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(28px, 4.5vw, 52px);
+        font-size: clamp(28px, 5vw, 52px);
         font-weight: 300;
         font-style: italic;
         color: #2f4a3c;
-        line-height: 1.2;
+        line-height: 1.25;
         letter-spacing: 0.01em;
         margin-bottom: clamp(20px, 3vw, 28px);
-    }
-
-    .venue__name {
-        font-family: 'Inter', sans-serif;
-        font-size: clamp(16px, 2vw, 18px);
-        font-weight: 400;
-        color: #2f4a3c;
-        letter-spacing: 0.02em;
-        margin-bottom: 8px;
     }
 
     .venue__address {
         font-family: 'Inter', sans-serif;
         font-size: clamp(13px, 1.7vw, 15px);
         font-weight: 300;
-        line-height: 1.7;
+        line-height: 1.8;
         color: #4a6b5a;
-        margin-bottom: clamp(28px, 4vw, 40px);
+        letter-spacing: 0.01em;
+        max-width: 480px;
+        margin: 0 auto clamp(28px, 4vw, 40px);
     }
 
-    /* ===== КНОПКА «ПОКАЗАТЬ НА КАРТЕ» ===== */
+    /* Кнопка без стрелки */
     .venue__btn {
         display: inline-flex;
         align-items: center;
-        gap: 14px;
-        align-self: flex-start;
-        padding: 16px 28px 16px 32px;
+        justify-content: center;
+        padding: 16px 40px;
         background: #2f4a3c;
         color: #ffffff;
         border: none;
@@ -454,10 +406,10 @@
         position: relative;
         overflow: hidden;
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        margin-bottom: clamp(48px, 7vw, 72px);
     }
 
     .venue__btn::before {
-        /* Заливка, которая «выезжает» справа налево при наведении */
         content: '';
         position: absolute;
         inset: 0;
@@ -475,29 +427,257 @@
         transform: scale(0.98);
     }
 
-    .venue__btn span,
-    .venue__btn svg {
+    .venue__btn span {
         position: relative;
         z-index: 1;
     }
 
-    .venue__btn svg {
-        width: 14px;
-        height: 14px;
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Фото — прямоугольное, широкое */
+    .venue__photo {
+        position: relative;
+        width: 100%;
     }
 
-    .venue__btn:hover svg {
-        transform: translateX(4px);
+    .venue__photo::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 1px solid #cdd9d2;
+        border-radius: 4px;
+        transform: translate(12px, 12px);
+        pointer-events: none;
     }
 
-    /* Стрелка внутри кнопки */
-    .venue__btn svg path {
-        stroke: #ffffff;
-        stroke-width: 1.5;
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
+    .venue__photo img {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: 4px;
+        z-index: 1;
+    }
+
+    /* ============================================
+       БЛОК 5: ТАЙМЕР
+    ============================================ */
+    .countdown {
+        background: #2f4a3c;
+        color: #ffffff;
+        padding:
+            clamp(72px, 11vw, 150px)
+            clamp(20px, 5vw, 48px)
+            clamp(72px, 11vw, 150px);
+        padding-bottom: max(clamp(72px, 11vw, 150px), env(safe-area-inset-bottom));
+    }
+
+    .countdown__inner {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .countdown__kicker {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(10px, 1.4vw, 11px);
+        font-weight: 400;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.55);
+        margin-bottom: clamp(16px, 2.5vw, 22px);
+    }
+
+    .countdown__title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 300;
+        font-style: italic;
+        color: #ffffff;
+        line-height: 1.25;
+        letter-spacing: 0.01em;
+        margin-bottom: clamp(48px, 7vw, 72px);
+    }
+
+    .countdown__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: clamp(8px, 2vw, 24px);
+    }
+
+    .countdown__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: clamp(16px, 3vw, 32px) clamp(8px, 2vw, 20px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .countdown__number {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(38px, 8vw, 84px);
+        font-weight: 300;
+        color: #ffffff;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        font-variant-numeric: tabular-nums;
+        margin-bottom: clamp(8px, 1.5vw, 14px);
+    }
+
+    .countdown__label {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(9px, 1.2vw, 11px);
+        font-weight: 400;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* ============================================
+       БЛОК 6: ДРЕСС-КОД
+    ============================================ */
+    .dresscode {
+        background: #ffffff;
+        padding:
+            clamp(72px, 11vw, 150px)
+            clamp(20px, 5vw, 48px)
+            clamp(72px, 11vw, 150px);
+        padding-bottom: max(clamp(72px, 11vw, 150px), env(safe-area-inset-bottom));
+    }
+
+    .dresscode__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .dresscode__kicker {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(10px, 1.4vw, 11px);
+        font-weight: 400;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: #99a89f;
+        margin-bottom: clamp(16px, 2.5vw, 22px);
+    }
+
+    .dresscode__title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 300;
+        font-style: italic;
+        color: #2f4a3c;
+        line-height: 1.25;
+        letter-spacing: 0.01em;
+        margin-bottom: clamp(20px, 3vw, 28px);
+    }
+
+    .dresscode__text {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(14px, 1.8vw, 16px);
+        font-weight: 300;
+        line-height: 1.85;
+        color: #4a6b5a;
+        max-width: 560px;
+        margin: 0 auto clamp(40px, 6vw, 64px);
+        letter-spacing: 0.01em;
+    }
+
+    .dresscode__palette {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(16px, 3vw, 32px);
+        margin-bottom: clamp(56px, 8vw, 88px);
+        flex-wrap: wrap;
+    }
+
+    .dresscode__swatch {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .dresscode__circle {
+        width: clamp(52px, 8vw, 72px);
+        height: clamp(52px, 8vw, 72px);
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .dresscode__circle--green  { background: #4a6b4a; }
+    .dresscode__circle--orange { background: #c47a3d; }
+    .dresscode__circle--brown  { background: #6b4f3a; }
+
+    .dresscode__swatch-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #99a89f;
+    }
+
+    .dresscode__cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(24px, 4vw, 48px);
+    }
+
+    .dresscode__card {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .dresscode__card-photo {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: 4px;
+        background: #f5f3ef;
+        margin-bottom: clamp(20px, 3vw, 28px);
+    }
+
+    .dresscode__card-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .dresscode__card-label {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(10px, 1.3vw, 11px);
+        font-weight: 400;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #99a89f;
+        margin-bottom: 10px;
+    }
+
+    .dresscode__card-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(22px, 3vw, 32px);
+        font-weight: 300;
+        font-style: italic;
+        color: #2f4a3c;
+        line-height: 1.2;
+        margin-bottom: 14px;
+        letter-spacing: 0.01em;
+    }
+
+    .dresscode__card-text {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(13px, 1.6vw, 15px);
+        font-weight: 300;
+        line-height: 1.75;
+        color: #4a6b5a;
+        letter-spacing: 0.01em;
     }
 
     /* ===== ПЛАНШЕТЫ ===== */
@@ -514,21 +694,20 @@
     }
 
     /* ===== МОБИЛЬНЫЕ ===== */
-    @media (max-width: 900px) {
-        .venue__inner {
+    @media (max-width: 700px) {
+        .dresscode__cards {
             grid-template-columns: 1fr;
-            gap: clamp(40px, 8vw, 64px);
-        }
-        .venue__photo {
-            max-width: 500px;
+            gap: clamp(40px, 8vw, 56px);
+            max-width: 420px;
             margin: 0 auto;
         }
-        .venue__content {
+        .dresscode__card {
             text-align: center;
-            align-items: center;
         }
-        .venue__btn {
-            align-self: center;
+        .dresscode__card-photo {
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 
@@ -569,7 +748,11 @@
             transform: translate(8px, 8px);
         }
         .venue__btn {
-            padding: 14px 22px 14px 24px;
+            padding: 14px 32px;
+        }
+
+        .countdown__grid {
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
     }
@@ -599,6 +782,9 @@
         .timeline__event {
             font-size: 14px;
         }
+        .dresscode__palette {
+            gap: 12px;
+        }
     }
 
     /* ===== ЛАНДШАФТ НА ТЕЛЕФОНЕ ===== */
@@ -614,20 +800,17 @@
         .hero__date {
             font-size: 12px;
         }
-        .invitation {
-            padding-top: 48px;
-            padding-bottom: 48px;
-        }
-        .timeline {
+        .invitation,
+        .timeline,
+        .venue,
+        .countdown,
+        .dresscode {
             padding-top: 56px;
             padding-bottom: 56px;
         }
-        .timeline__title {
+        .timeline__title,
+        .countdown__title {
             margin-bottom: 32px;
-        }
-        .venue {
-            padding-top: 56px;
-            padding-bottom: 56px;
         }
     }
 
@@ -643,7 +826,7 @@
             max-width: 720px;
         }
         .venue__inner {
-            max-width: 1280px;
+            max-width: 1100px;
         }
     }
 
@@ -660,7 +843,9 @@
         .invitation__text {
             font-size: 17px;
         }
-        .timeline__title {
+        .timeline__title,
+        .countdown__title,
+        .dresscode__title {
             font-size: 60px;
         }
         .timeline__event {
@@ -668,6 +853,12 @@
         }
         .venue__title {
             font-size: 60px;
+        }
+        .countdown__number {
+            font-size: 96px;
+        }
+        .dresscode__card-title {
+            font-size: 36px;
         }
     }
 </style>
@@ -693,7 +884,6 @@
 
             <div class="invitation__divider reveal reveal--delay-2"></div>
 
-            <!-- КАЛЕНДАРЬ -->
             <div class="calendar reveal reveal--delay-3">
                 <div class="calendar__month">Декабрь 2026</div>
 
@@ -781,39 +971,126 @@
         </div>
     </section>
 
-    <!-- БЛОК 4: МЕСТО ПРОВЕДЕНИЯ -->
+    <!-- БЛОК 4: МЕСТО ПРОВЕДЕНИЯ — ТЕКСТ СВЕРХУ, ФОТО СНИЗУ -->
     <section class="venue">
         <div class="venue__inner">
 
-            <div class="venue__photo reveal">
+            <div class="venue__kicker reveal">Место проведения</div>
+
+            <h2 class="venue__title reveal reveal--delay-1">Усадьба «Лесная»</h2>
+
+            <div class="venue__address reveal reveal--delay-2">
+                Московская область, Одинцовский район<br>
+                Деревня Раздоры, ул. Липовая, 12<br>
+                Въезд с главной аллеи, парковка на территории
+            </div>
+
+            <a
+                href="https://yandex.ru/maps/?text=Московская+область+Одинцовский+район+деревня+Раздоры+улица+Липовая+12"
+                target="_blank"
+                rel="noopener"
+                class="venue__btn reveal reveal--delay-3"
+            >
+                <span>Показать на карте</span>
+            </a>
+
+            <div class="venue__photo reveal reveal--delay-2">
                 <img src="9cf6a74fa2e574fe14621d7445a681aa.jpg" alt="Место проведения">
             </div>
 
-            <div class="venue__content">
-                <div class="venue__kicker reveal reveal--delay-1">Место проведения</div>
+        </div>
+    </section>
 
-                <h2 class="venue__title reveal reveal--delay-1">Усадьба «Лесная»</h2>
+    <!-- БЛОК 5: ТАЙМЕР -->
+    <section class="countdown">
+        <div class="countdown__inner">
 
-                <div class="venue__name reveal reveal--delay-2">
-                    Московская область, Одинцовский район
+            <div class="countdown__kicker reveal">До торжества осталось</div>
+
+            <h2 class="countdown__title reveal reveal--delay-1">Совсем скоро</h2>
+
+            <div class="countdown__grid" id="countdown">
+                <div class="countdown__item reveal reveal--delay-1">
+                    <div class="countdown__number" id="cd-days">00</div>
+                    <div class="countdown__label">Дней</div>
                 </div>
 
-                <div class="venue__address reveal reveal--delay-2">
-                    Деревня Раздоры, ул. Липовая, 12<br>
-                    Въезд с главной аллеи, парковка на территории
+                <div class="countdown__item reveal reveal--delay-1">
+                    <div class="countdown__number" id="cd-hours">00</div>
+                    <div class="countdown__label">Часов</div>
                 </div>
 
-                <a
-                    href="https://yandex.ru/maps/?text=Московская+область+Одинцовский+район+деревня+Раздоры+улица+Липовая+12"
-                    target="_blank"
-                    rel="noopener"
-                    class="venue__btn reveal reveal--delay-3"
-                >
-                    <span>Показать на карте</span>
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M5 12h14M13 6l6 6-6 6"/>
-                    </svg>
-                </a>
+                <div class="countdown__item reveal reveal--delay-2">
+                    <div class="countdown__number" id="cd-minutes">00</div>
+                    <div class="countdown__label">Минут</div>
+                </div>
+
+                <div class="countdown__item reveal reveal--delay-2">
+                    <div class="countdown__number" id="cd-seconds">00</div>
+                    <div class="countdown__label">Секунд</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- БЛОК 6: ДРЕСС-КОД -->
+    <section class="dresscode">
+        <div class="dresscode__inner">
+
+            <div class="dresscode__kicker reveal">Дресс-код</div>
+
+            <h2 class="dresscode__title reveal reveal--delay-1">Осенняя палитра</h2>
+
+            <p class="dresscode__text reveal reveal--delay-1">
+                Мы будем рады, если вы поддержите палитру нашего торжества.
+                Выбирайте наряды в тёплых природных оттенках — они создадут
+                особенную атмосферу вечера.
+            </p>
+
+            <div class="dresscode__palette reveal reveal--delay-2">
+                <div class="dresscode__swatch">
+                    <div class="dresscode__circle dresscode__circle--green"></div>
+                    <div class="dresscode__swatch-label">Зелёный</div>
+                </div>
+                <div class="dresscode__swatch">
+                    <div class="dresscode__circle dresscode__circle--orange"></div>
+                    <div class="dresscode__swatch-label">Оранжевый</div>
+                </div>
+                <div class="dresscode__swatch">
+                    <div class="dresscode__circle dresscode__circle--brown"></div>
+                    <div class="dresscode__swatch-label">Коричневый</div>
+                </div>
+            </div>
+
+            <div class="dresscode__cards">
+
+                <div class="dresscode__card reveal reveal--delay-2">
+                    <div class="dresscode__card-photo">
+                        <img src="dress-women.jpg" alt="Пример женского образа">
+                    </div>
+                    <div class="dresscode__card-label">Для женщин</div>
+                    <h3 class="dresscode__card-title">Платья и образы</h3>
+                    <p class="dresscode__card-text">
+                        Платья миди или макси в осенних оттенках, струящиеся ткани,
+                        мягкий трикотаж. Аксессуары — тёплых тонов, обувь — удобная
+                        для торжества.
+                    </p>
+                </div>
+
+                <div class="dresscode__card reveal reveal--delay-3">
+                    <div class="dresscode__card-photo">
+                        <img src="dress-men.jpg" alt="Пример мужского образа">
+                    </div>
+                    <div class="dresscode__card-label">Для мужчин</div>
+                    <h3 class="dresscode__card-title">Костюмы и рубашки</h3>
+                    <p class="dresscode__card-text">
+                        Костюмы классического кроя, рубашки спокойных оттенков,
+                        лоферы или дерби. Жилеты, галстуки или бабочки в палитре
+                        торжества.
+                    </p>
+                </div>
+
             </div>
 
         </div>
@@ -829,35 +1106,75 @@
         threshold: 0.15
     };
 
-    if (!('IntersectionObserver' in window)) {
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        document.querySelectorAll('.reveal').forEach(function (el) {
+            observer.observe(el);
+        });
+
+        window.addEventListener('load', function () {
+            document.querySelectorAll('.reveal').forEach(function (el) {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.classList.add('is-visible');
+                    observer.unobserve(el);
+                }
+            });
+        });
+    } else {
         document.querySelectorAll('.reveal').forEach(function (el) {
             el.classList.add('is-visible');
         });
-        return;
     }
 
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, options);
+    // ============================================
+    // ТАЙМЕР ОБРАТНОГО ОТСЧЁТА
+    // ============================================
+    const WEDDING_DATE = new Date(2026, 11, 1, 14, 0, 0);
 
-    document.querySelectorAll('.reveal').forEach(function (el) {
-        observer.observe(el);
-    });
+    const elDays    = document.getElementById('cd-days');
+    const elHours   = document.getElementById('cd-hours');
+    const elMinutes = document.getElementById('cd-minutes');
+    const elSeconds = document.getElementById('cd-seconds');
 
-    window.addEventListener('load', function () {
-        document.querySelectorAll('.reveal').forEach(function (el) {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                el.classList.add('is-visible');
-                observer.unobserve(el);
-            }
-        });
-    });
+    function pad(n) {
+        return n < 10 ? '0' + n : '' + n;
+    }
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = WEDDING_DATE - now;
+
+        if (diff <= 0) {
+            elDays.textContent    = '00';
+            elHours.textContent   = '00';
+            elMinutes.textContent = '00';
+            elSeconds.textContent = '00';
+            return;
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days    = Math.floor(totalSeconds / 86400);
+        const hours   = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        elDays.textContent    = pad(days);
+        elHours.textContent   = pad(hours);
+        elMinutes.textContent = pad(minutes);
+        elSeconds.textContent = pad(seconds);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
 })();
 </script>
