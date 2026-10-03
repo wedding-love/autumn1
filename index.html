@@ -271,9 +271,10 @@
         .hero { background-position: center 20%; }
     }
 
+    /* Имена — всегда в одну строку */
     .hero__names {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(34px, 9vw, 100px);
+        font-size: clamp(18px, 9vw, 100px);
         font-weight: 400;
         font-style: italic;
         color: #ffffff;
@@ -281,10 +282,8 @@
         letter-spacing: 0.01em;
         margin-bottom: clamp(10px, 2.5vw, 20px);
         max-width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        hyphens: auto;
-        padding: 0 8px;
+        white-space: nowrap;
+        padding: 0 4px;
         text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
     }
 
@@ -292,7 +291,7 @@
         display: inline-block;
         font-style: normal;
         font-weight: 300;
-        margin: 0 0.15em;
+        margin: 0 0.08em;
         opacity: 0.85;
     }
 
@@ -1102,10 +1101,6 @@
     }
 
     @media (max-width: 480px) {
-        .hero__names {
-            font-size: clamp(30px, 10.5vw, 46px);
-            line-height: 1.15;
-        }
         .hero__date { font-size: 11px; letter-spacing: 0.3em; }
 
         .invitation__greeting { font-size: clamp(22px, 7vw, 34px); }
@@ -1134,8 +1129,6 @@
         .countdown__number { font-size: clamp(30px, 10vw, 44px); }
         .countdown__label { font-size: 8px; letter-spacing: 0.25em; }
 
-        .hero__names { font-size: 28px; }
-
         .calendar { max-width: 290px; }
         .calendar__weekday { font-size: 7px; letter-spacing: 0.05em; }
         .calendar__day { font-size: 11px; }
@@ -1153,7 +1146,6 @@
     }
 
     @media (max-width: 320px) {
-        .hero__names { font-size: 26px; }
         .countdown__number { font-size: 28px; }
         .calendar__weekday { font-size: 7px; }
     }
@@ -1166,7 +1158,8 @@
             padding: 20px 40px 32px;
         }
         .hero__names {
-            font-size: clamp(26px, 7vh, 44px);
+            font-size: clamp(20px, 5.5vh, 40px);
+            white-space: nowrap;
             margin-bottom: 6px;
         }
         .hero__date { font-size: 11px; }
@@ -1621,10 +1614,8 @@
         screen.style.display = 'none';
         document.documentElement.classList.remove('puzzle-active');
         document.body.classList.remove('puzzle-active');
-        // Запускаем reveal сразу
         requestAnimationFrame(() => requestAnimationFrame(initReveals));
     } else {
-        // Стартуем пазл после загрузки
         window.addEventListener('load', () => setTimeout(initPuzzle, 50));
     }
 
